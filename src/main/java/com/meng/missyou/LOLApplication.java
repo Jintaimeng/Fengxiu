@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Import;
 
 /*自己编写Spring应用启动类*/
 
-
 //@ComponentScan
 //@Import(HeroConfiguration.class)  //需要.web(WebApplicationType.NONE)关闭服务器，不要求启动服务器
 //@Import(LOLConfigurationSelector.class)

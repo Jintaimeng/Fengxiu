@@ -47,9 +47,9 @@ public class BannerController {
     //@RequestMapping(value = "/test",method = {RequestMethod.GET,
     // RequestMethod.POST})  RequestMapping比GetMapping功能更强大
     @ResponseBody
-    public String test() throws Exception {
+    public String test() {
         iSkill.r();//此处就不用实例化了
-        throw new NotFoundException(10001);
+        throw new RuntimeException("23523");
         //throw new Exception("这里错了");
         //return "Hello,TaiMeng~";
     }

@@ -1,5 +1,6 @@
 package com.meng.missyou.api.v1;
 
+import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.sample.IConnect;
 import com.meng.missyou.sample.ISkill;
 import com.meng.missyou.sample.hero.Diana;
@@ -48,7 +49,8 @@ public class BannerController {
     @ResponseBody
     public String test() throws Exception {
         iSkill.r();//此处就不用实例化了
-        throw new Exception("这里错了");
+        throw new NotFoundException(10001);
+        //throw new Exception("这里错了");
         //return "Hello,TaiMeng~";
     }
 

@@ -23,8 +23,8 @@ public class BannerController {
     @Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
     //@Qualifier("irelia")//强制注入irelia
     private ISkill iSkill;  //属性注入的方法
-    @Autowired
-    private IConnect iConnect;
+//    @Autowired
+//    private IConnect iConnect;
 //    @Autowired
 //    public void setDiana(Diana diana) {//setter注入
 //        this.diana = diana;

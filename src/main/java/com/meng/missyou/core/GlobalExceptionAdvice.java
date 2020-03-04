@@ -1,6 +1,8 @@
 package com.meng.missyou.core;
 
+import com.meng.missyou.core.configuration.ExceptionCodeConfiguration;
 import com.meng.missyou.exception.http.HttpException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class GlobalExceptionAdvice {
+    @Autowired
+    private ExceptionCodeConfiguration codeConfiguration;
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -28,7 +32,7 @@ public class GlobalExceptionAdvice {
     public ResponseEntity handleHttpException(HttpServletRequest request, HttpException e){
         String requestURL = request.getRequestURI();
         String method = request.getMethod();
-        UnifyResponse message = new UnifyResponse(e.getCode(),"xxxxxx",method+""+requestURL);
+        UnifyResponse message = new UnifyResponse(e.getCode(),codeConfiguration.getMessage(e.getCode()),method+""+requestURL);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpStatus httpStatus = HttpStatus.resolve(e.getHttpStatusCode());

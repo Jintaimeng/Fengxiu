@@ -20,6 +20,7 @@ import java.io.IOException;
 * @RestController包括前面两者*/
 
 /*若url前缀都一样，可在类上使用@RequestMapping("/v1/banner")*/
+//@RequestMapping("/banner")
 public class BannerController {
     @Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
     //@Qualifier("irelia")//强制注入irelia

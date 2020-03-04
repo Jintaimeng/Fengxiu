@@ -1,5 +1,6 @@
 package com.meng.missyou.api.v1;
 
+import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.sample.IConnect;
 import com.meng.missyou.sample.ISkill;
@@ -49,7 +50,7 @@ public class BannerController {
     @ResponseBody
     public String test() {
         iSkill.r();//此处就不用实例化了
-        throw new RuntimeException("23523");
+        throw new ForbiddenException(10001);
         //throw new Exception("这里错了");
         //return "Hello,TaiMeng~";
     }

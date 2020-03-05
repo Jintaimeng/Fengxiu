@@ -38,7 +38,7 @@ public class BannerController {
 //    }
 
     //MVC SPringMVC
-    @GetMapping("/test")//路由  RESTFulAPI
+
 //    @PostMapping
 //    @PutMapping
 //    @DeleteMapping
@@ -48,10 +48,11 @@ public class BannerController {
 //    }
     //@RequestMapping(value = "/test",method = {RequestMethod.GET,
     // RequestMethod.POST})  RequestMapping比GetMapping功能更强大
+    @GetMapping("/test/{id}")//路由  RESTFulAPI
     @ResponseBody
-    public String test() {
+    public String test(@PathVariable Integer id,@RequestParam String name) {
         iSkill.r();//此处就不用实例化了
-        throw new ForbiddenException(10001);
+        throw new ForbiddenException(10000);
         //throw new Exception("这里错了");
         //return "Hello,TaiMeng~";
     }

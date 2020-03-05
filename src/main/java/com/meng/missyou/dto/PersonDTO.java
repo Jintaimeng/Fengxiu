@@ -1,23 +1,18 @@
 package com.meng.missyou.dto;
 
+
+import lombok.*;
+
+@Getter
+@Setter
+//@AllArgsConstructor//全参构造
+@NoArgsConstructor//无参构造
+@RequiredArgsConstructor//部分参数的构造函数
+//@Data 不止包括Getter和Setter方法，还包括equals、hashCode、toString等
 public class PersonDTO {
+    @NonNull//不能传入空值
     private String name;
     private Integer age;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public void setAge(Integer age) {
-        this.age = age;
-    }
     //数据传输对象
 }

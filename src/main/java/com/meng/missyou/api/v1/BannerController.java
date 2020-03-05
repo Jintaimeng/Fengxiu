@@ -1,20 +1,10 @@
 package com.meng.missyou.api.v1;
 
 import com.meng.missyou.dto.PersonDTO;
-import com.meng.missyou.exception.http.ForbiddenException;
-import com.meng.missyou.exception.http.NotFoundException;
-import com.meng.missyou.sample.IConnect;
 import com.meng.missyou.sample.ISkill;
-import com.meng.missyou.sample.hero.Diana;
-import com.meng.missyou.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 @Controller
 /*若在类上加上@ResponseBody ，则不需要在每个方法上写@ResponseBody
@@ -23,6 +13,7 @@ import java.util.Map;
 
 /*若url前缀都一样，可在类上使用@RequestMapping("/v1/banner")*/
 //@RequestMapping("/banner")
+
 public class BannerController {
     @Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
     //@Qualifier("irelia")//强制注入irelia
@@ -52,11 +43,12 @@ public class BannerController {
     // RequestMethod.POST})  RequestMapping比GetMapping功能更强大
     @PostMapping("/test/{id}")//路由  RESTFulAPI
     @ResponseBody
-    public String test(@PathVariable Integer id, @RequestParam String name, @RequestBody PersonDTO person) {
+    public PersonDTO test(@PathVariable Integer id, @RequestParam String name, @RequestBody PersonDTO person) {
         iSkill.r();//此处就不用实例化了
-        throw new ForbiddenException(10000);
+        PersonDTO dto = PersonDTO.builder().name("taimeng").age(18).build();
+        //throw new ForbiddenException(10000);
         //throw new Exception("这里错了");
-        //return "Hello,TaiMeng~";
+        return dto;
     }
 
 //    @GetMapping("/test1")

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import java.util.List;
 
 @ControllerAdvice
@@ -53,6 +54,19 @@ public class GlobalExceptionAdvice {
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
         String message = this.formatAllErrorMessages(errors);
         return new UnifyResponse(10001, message, method + " " + requestURL);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public UnifyResponse handleConstraintException(HttpServletRequest request, ConstraintViolationException e) {
+        String requestURL = request.getRequestURI();
+        String method = request.getMethod();
+        String message = e.getMessage();
+        return new UnifyResponse(10001, message, method + " " + requestURL);
+//       for(ConstraintViolation error: e.getConstraintViolations()){
+//           ConstraintViolation a = error;
+//       }
     }
 
     private String formatAllErrorMessages(List<ObjectError> errors) {

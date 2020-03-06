@@ -8,6 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Controller
 /*若在类上加上@ResponseBody ，则不需要在每个方法上写@ResponseBody
@@ -47,7 +48,7 @@ public class BannerController {
 @PostMapping("/test/{id}") //路由  RESTFulAPI
 @ResponseBody
 
-public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过10") Integer id, @RequestParam String name,
+public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过10") Integer id, @RequestParam @Min(4) String name,
                       @RequestBody @Validated PersonDTO person) {
     iSkill.r();//此处就不用实例化了
     PersonDTO dto = PersonDTO.builder().name("taimeng").age(18).build();

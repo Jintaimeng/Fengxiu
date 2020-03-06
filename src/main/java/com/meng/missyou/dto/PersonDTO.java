@@ -13,7 +13,7 @@ import org.hibernate.validator.constraints.Length;
 //@RequiredArgsConstructor//部分参数的构造函数
 //@Data 不止包括Getter和Setter方法，还包括equals、hashCode、toString等
 @Builder
-@PasswordEqual(min = 1)
+@PasswordEqual(min = 1, message = "两次密码不一样")
 public class PersonDTO {
     //@NonNull//不能传入空值
     @Length(min = 5, max = 12, message = "长度错误")

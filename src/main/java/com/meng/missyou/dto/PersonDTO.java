@@ -2,6 +2,9 @@ package com.meng.missyou.dto;
 
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.Valid;
 
 @Getter
 //@Setter
@@ -12,8 +15,10 @@ import lombok.*;
 @Builder
 public class PersonDTO {
     //@NonNull//不能传入空值
+    @Length(min = 5, max = 12, message = "长度错误")
     private String name;
     private Integer age;
-
+    @Valid
+    private SchoolDTO schoolDTO;
     //数据传输对象
 }

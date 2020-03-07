@@ -2,6 +2,7 @@ package com.meng.missyou.api.v1;
 
 import com.meng.missyou.dto.PersonDTO;
 import com.meng.missyou.sample.ISkill;
+import com.meng.missyou.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
@@ -19,9 +20,11 @@ import javax.validation.constraints.Min;
 //@RequestMapping("/banner")
 @Validated //使参数校验生效
 public class BannerController {
-    @Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
+    //@Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
     //@Qualifier("irelia")//强制注入irelia
     private ISkill iSkill;  //属性注入的方法
+    @Autowired
+    private BannerService bannerService;
 //    @Autowired
 //    private IConnect iConnect;
 //    @Autowired
@@ -50,7 +53,7 @@ public class BannerController {
 
 public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过10") Integer id, @RequestParam @Min(4) String name,
                       @RequestBody @Validated PersonDTO person) {
-    iSkill.r();//此处就不用实例化了
+    //iSkill.r();//此处就不用实例化了
     PersonDTO dto = PersonDTO.builder().name("taimeng").age(18).build();
     //throw new ForbiddenException(10000);
     //throw new Exception("这里错了");

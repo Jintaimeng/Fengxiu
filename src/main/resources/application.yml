@@ -2,3 +2,7 @@ missyou:
   api-package: com.meng.missyou.api
 server:
   port: 8080
+
+spring:
+  profiles:
+    active: dev

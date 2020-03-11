@@ -12,9 +12,9 @@ public class BannerItem {
     private short type;
     private String name;
 
-    private long bannerId;
+    private long bannerId; //双向时bannerId会自动生成
 
     @ManyToOne
-    @JoinColumn(name = "bannerId")//打在多方的  外键
+    @JoinColumn(insertable = false, updatable = false, name = "bannerId")//打在多方的  外键
     private Banner banner;
 }

@@ -16,5 +16,5 @@ public class BannerItem {
 
     @ManyToOne
     @JoinColumn(insertable = false, updatable = false, name = "bannerId")//打在多方的  外键
-    private Banner banner;
+    private Banner banner;//导航属性
 }

@@ -1,14 +1,11 @@
 package com.meng.missyou.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class BannerItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//id增序
     private long id;
     private String img;
     private String keyword;
@@ -16,4 +13,8 @@ public class BannerItem {
     private String name;
 
     private long bannerId;
+
+    @ManyToOne
+    @JoinColumn(name = "bannerId")//打在多方的  外键
+    private Banner banner;
 }

@@ -1,8 +1,8 @@
 package com.meng.missyou.service;
 
-import org.springframework.stereotype.Service;
+import com.meng.missyou.model.Banner;
 
 
 public interface BannerService {
-    void getByName(String name);
+    Banner getByName(String name);
 }

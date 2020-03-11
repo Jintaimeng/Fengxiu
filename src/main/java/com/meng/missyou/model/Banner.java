@@ -17,7 +17,7 @@ public class Banner {
     private String description;
     private String img;
     private String title;
-    @OneToMany
-    @JoinColumn(name = "bannerId")
-    private List<BannerItem> items;
+    //@OneToMany(fetch = FetchType.EAGER)//急加载
+    @OneToMany(mappedBy = "banner")//mappedBy这里填导航属性的名字，这样才配置好双向的属性
+    private List<BannerItem> items;//导航属性
 }

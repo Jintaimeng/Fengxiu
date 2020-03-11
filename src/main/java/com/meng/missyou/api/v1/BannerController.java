@@ -1,6 +1,7 @@
 package com.meng.missyou.api.v1;
 
 import com.meng.missyou.dto.PersonDTO;
+import com.meng.missyou.model.Banner;
 import com.meng.missyou.sample.ISkill;
 import com.meng.missyou.service.BannerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 @Controller
+@ResponseBody
 /*若在类上加上@ResponseBody ，则不需要在每个方法上写@ResponseBody
  * @Controller和@ResponseBody可以用@RestController代替，
  * @RestController包括前面两者*/
@@ -23,8 +26,7 @@ public class BannerController {
     //@Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值
     //@Qualifier("irelia")//强制注入irelia
     private ISkill iSkill;  //属性注入的方法
-    @Autowired
-    private BannerService bannerService;
+
 //    @Autowired
 //    private IConnect iConnect;
 //    @Autowired
@@ -49,7 +51,7 @@ public class BannerController {
 //@RequestMapping(value = "/test",method = {RequestMethod.GET,
 // RequestMethod.POST})  RequestMapping比GetMapping功能更强大
 @PostMapping("/test/{id}") //路由  RESTFulAPI
-@ResponseBody
+
 
 public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过10") Integer id, @RequestParam @Min(4) String name,
                       @RequestBody @Validated PersonDTO person) {
@@ -60,10 +62,19 @@ public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过1
     return dto;
 }
 
-//    @GetMapping("/test1")
+    //    @GetMapping("/test1")
 //    @ResponseBody
 //    public void test1(){
 //        iConnect.connect();
 //    }
     //POSTMan  单元测试
+    @Autowired
+    private BannerService bannerService;
+
+    @GetMapping("/name/{name}")
+    public Banner getByName(@PathVariable @NotBlank String name) {
+        Banner banner = bannerService.getByName(name);//懒加载 急加载
+        return banner;
+    }
+
 }

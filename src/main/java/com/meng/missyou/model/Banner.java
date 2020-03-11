@@ -18,6 +18,6 @@ public class Banner {
     private String img;
     private String title;
     //@OneToMany(fetch = FetchType.EAGER)//急加载
-    @OneToMany(mappedBy = "banner")//mappedBy这里填导航属性的名字，这样才配置好双向的属性
+    @OneToMany(mappedBy = "banner")//被维护端要加上mappedBy，这里填 维护端 中导航属性的名字，这样才配置好双向的属性
     private List<BannerItem> items;//导航属性
 }

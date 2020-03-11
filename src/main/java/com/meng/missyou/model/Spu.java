@@ -2,6 +2,8 @@ package com.meng.missyou.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
 @Entity
 public class Spu {
@@ -9,6 +11,6 @@ public class Spu {
     private long id;
     private String title;
     private String subtitle;
-//    @ManyToMany
-//    private List<Theme> themeList;//导航属性
+    @ManyToMany(mappedBy = "spuList")
+    private List<Theme> themeList;//导航属性
 }

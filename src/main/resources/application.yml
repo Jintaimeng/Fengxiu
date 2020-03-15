@@ -8,4 +8,4 @@ spring:
     active: dev
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none

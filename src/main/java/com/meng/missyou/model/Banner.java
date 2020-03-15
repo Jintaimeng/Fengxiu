@@ -19,6 +19,6 @@ public class Banner {
     private String title;
     //@OneToMany(fetch = FetchType.EAGER)//急加载
     @OneToMany(mappedBy = "banner")//被维护端要加上mappedBy，这里填 维护端 中导航属性的名字，这样才配置好双向的属性
-    @org.hibernate.annotations.ForeignKey(name = "null")//关闭物理外键，此方法已废除，新方法有bug
+    @org.hibernate.annotations.ForeignKey(name = "null")//关闭物理外键，在导航属性上使用，此方法已废除，新方法有bug
     private List<BannerItem> items;//导航属性
 }

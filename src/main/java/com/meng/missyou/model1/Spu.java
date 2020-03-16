@@ -1,4 +1,4 @@
-package com.meng.missyou.model;
+package com.meng.missyou.model1;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

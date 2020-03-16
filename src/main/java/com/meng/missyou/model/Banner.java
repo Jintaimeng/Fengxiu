@@ -1,6 +1,5 @@
 package com.meng.missyou.model;
 
-import com.meng.missyou.model1.BannerItem;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -74,7 +74,7 @@ public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过1
 
     @GetMapping("/name/{name}")
     public Banner getByName(@PathVariable @NotBlank String name) {
-        Banner banner = bannerService.getByName(name);//懒加载 急加载
+        Banner banner = bannerService.getByName(name);
         if (banner == null)
             throw new NotFoundException(30005);
         return banner;

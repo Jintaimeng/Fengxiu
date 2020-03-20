@@ -3,6 +3,7 @@ package com.meng.missyou.vo;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -17,15 +18,15 @@ public class PagingVO<T> {
     private Integer totalPage;
     private List<T> items;
 
-    public PagingVO(PagingVO<T> pageT) {
+    public PagingVO(Page<T> pageT) {
         this.initPageParameters(pageT);
-        this.items = pageT.getItems();
+        this.items = pageT.getContent();
     }
 
-    void initPageParameters(PagingVO<T> pageT) {
-        this.total = pageT.getTotal();
-        this.count = pageT.getCount();
-        this.page = pageT.getPage();
-        this.totalPage = pageT.getTotalPage();
+    void initPageParameters(Page<T> pageT) {
+        this.total = pageT.getTotalElements();
+        this.count = pageT.getSize();
+        this.page = pageT.getNumber();
+        this.totalPage = pageT.getTotalPages();
     }
 }

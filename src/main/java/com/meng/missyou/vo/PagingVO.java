@@ -9,6 +9,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+
 public class PagingVO<T> {
     private Long total;
     private Integer count;

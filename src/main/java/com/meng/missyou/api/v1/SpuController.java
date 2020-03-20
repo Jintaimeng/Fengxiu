@@ -43,7 +43,7 @@ public class SpuController {
         return vo;
     }
 
-    @GetMapping("/latest?start= & count=")
+    @GetMapping("/latest")
     public List<SpuSimplifyVO> getLatestSpuList(@RequestParam(defaultValue = "0") Integer start,
                                                 @RequestParam(defaultValue = "10") Integer count) {
         PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);

@@ -7,7 +7,7 @@ import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.model.Spu;
 import com.meng.missyou.service.SpuService;
 import com.meng.missyou.util.CommonUtil;
-import com.meng.missyou.vo.PagingVO;
+import com.meng.missyou.vo.Paging;
 import com.meng.missyou.vo.SpuSimplifyVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class SpuController {
                                                 @RequestParam(defaultValue = "10") Integer count) {
         PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
         Page<Spu> spuList = this.spuService.getLatestPagingSpu(pageCounter.getPage(), pageCounter.getCount());
-        PagingVO<Spu> pagingVO = new PagingVO(spuList);
+        Paging<Spu> pagingVO = new Paging(spuList);
         Mapper mapper = DozerBeanMapperBuilder.buildDefault();
         List<SpuSimplifyVO> vos = new ArrayList<>();
         pagingVO.getItems().forEach(s -> {

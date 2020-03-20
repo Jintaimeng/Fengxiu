@@ -11,14 +11,14 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 
-public class PagingVO<T> {
+public class Paging<T> {
     private Long total;
     private Integer count;
     private Integer page;
     private Integer totalPage;
     private List<T> items;
 
-    public PagingVO(Page<T> pageT) {
+    public Paging(Page<T> pageT) {
         this.initPageParameters(pageT);
         this.items = pageT.getContent();
     }

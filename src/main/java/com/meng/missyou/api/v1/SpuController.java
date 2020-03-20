@@ -1,13 +1,11 @@
 package com.meng.missyou.api.v1;
 
-import com.github.dozermapper.core.DozerBeanMapperBuilder;
-import com.github.dozermapper.core.Mapper;
 import com.meng.missyou.bo.PageCounter;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.model.Spu;
 import com.meng.missyou.service.SpuService;
 import com.meng.missyou.util.CommonUtil;
-import com.meng.missyou.vo.Paging;
+import com.meng.missyou.vo.PagingDozer;
 import com.meng.missyou.vo.SpuSimplifyVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +14,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/spu")
@@ -44,18 +40,11 @@ public class SpuController {
     }
 
     @GetMapping("/latest")
-    public List<SpuSimplifyVO> getLatestSpuList(@RequestParam(defaultValue = "0") Integer start,
-                                                @RequestParam(defaultValue = "10") Integer count) {
+    public PagingDozer<Spu, SpuSimplifyVO> getLatestSpuList(@RequestParam(defaultValue = "0") Integer start,
+                                                            @RequestParam(defaultValue = "10") Integer count) {
         PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
-        Page<Spu> spuList = this.spuService.getLatestPagingSpu(pageCounter.getPage(), pageCounter.getCount());
-        Paging<Spu> pagingVO = new Paging(spuList);
-        Mapper mapper = DozerBeanMapperBuilder.buildDefault();
-        List<SpuSimplifyVO> vos = new ArrayList<>();
-        pagingVO.getItems().forEach(s -> {
-            SpuSimplifyVO vo = mapper.map(s, SpuSimplifyVO.class);
-            vos.add(vo);
-        });
-        return vos;
+        Page<Spu> page = this.spuService.getLatestPagingSpu(pageCounter.getPage(), pageCounter.getCount());
+        return new PagingDozer<Spu, SpuSimplifyVO>(page, SpuSimplifyVO.class);
     }
 
 }

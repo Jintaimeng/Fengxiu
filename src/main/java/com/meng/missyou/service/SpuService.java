@@ -26,5 +26,10 @@ public class SpuService {
 
     public Page<Spu> getByCategory(Long cid, Boolean isRoot, Integer pageNum, Integer size) {
         Pageable page = PageRequest.of(pageNum, size);
+        if (isRoot) {
+            return this.spuRepository.findByRootCategoryIdOrderByCreateTime(cid, page);
+        } else {
+            return this.spuRepository.findByCategoryIdOrderByCategoryIdDesc(cid, page);
+        }
     }
 }

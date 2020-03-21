@@ -49,11 +49,12 @@ public class SpuController {
 
     @GetMapping("/by/category/{id}")
     public PagingDozer<Spu, SpuSimplifyVO> getByCategoryId(@PathVariable(name = "id") @Positive Long id,
-                                                           @RequestParam(name = "is_root") Boolean isRoot,
+                                                           @RequestParam(name = "is_root", defaultValue = "false") Boolean isRoot,
                                                            @RequestParam(name = "start", defaultValue = "0") Integer start,
                                                            @RequestParam(name = "count", defaultValue = "10") Integer count) {
-
-
+        PageCounter pageCounter = CommonUtil.convertToPageParameter(start, count);
+        Page<Spu> page = this.spuService.getByCategory(id, isRoot, pageCounter.getPage(), pageCounter.getCount());
+        return new PagingDozer<Spu, SpuSimplifyVO>(page, SpuSimplifyVO.class);
     }
 
 }

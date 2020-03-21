@@ -8,5 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface SpuRepository extends JpaRepository<Spu, Long> {
     Spu getOneById(Long id);
 
-    Page<Spu> findByCategoryIdOOrderByCategoryIdCategoryIdDesc(Long cid, Pageable pageable);
+    Page<Spu> findByCategoryIdOrderByCategoryIdDesc(Long cid, Pageable pageable);
+
+    Page<Spu> findByRootCategoryIdOrderByCreateTime(Long cid, Pageable pageable);
 }

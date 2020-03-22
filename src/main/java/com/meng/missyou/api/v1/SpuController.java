@@ -18,6 +18,7 @@ import javax.validation.constraints.Positive;
 @RestController
 @RequestMapping("/spu")
 @Validated
+
 public class SpuController {
     @Autowired
     private SpuService spuService;

@@ -15,17 +15,19 @@ public class Spu extends BaseEntity {
     private String title;
     private String subtitle;
     private Long categoryId;
+    private Long rootCategoryId;
     private Boolean online;
     private String price;
     private Long sketchSpecId;
     private Long defaultSkuId;
     private String img;
     private String discountPrice;
-    private String tags;
     private String description;
+    private String tags;
     private Boolean isTest;
     //private Object spuThemeImg;
     private String forThemeImg;
+
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "spuId")
@@ -36,5 +38,6 @@ public class Spu extends BaseEntity {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "spuId")
     private List<Sku> skuList;
+
 
 }

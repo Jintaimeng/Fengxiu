@@ -22,4 +22,6 @@ public class Banner extends BaseEntity {
     private List<BannerItem> items;//导航属性
 
 
+//
+
 }

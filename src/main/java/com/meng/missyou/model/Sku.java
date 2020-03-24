@@ -8,12 +8,15 @@
  */
 package com.meng.missyou.model;
 
+import com.meng.missyou.util.MapAndJson;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Map;
 
 @Entity
 @Getter
@@ -34,5 +37,7 @@ public class Sku extends BaseEntity {
     private String specs;
     private String code;
     private Long stock;
+    @Convert(converter = MapAndJson.class)
+    private Map<String, Object> test;
 
 }

@@ -3,10 +3,25 @@ package com.meng.missyou.util;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meng.missyou.exception.http.ServerErrorException;
+import jdk.internal.org.objectweb.asm.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class GenericAndJson {
     private static ObjectMapper mapper;
+
+    public static <T> T jsonToList(String s, TypeReference<T> tr) {
+        try {
+            if (s == null) {
+                return null;
+            }
+            return GenericAndJson.mapper.readValue(s, tr);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            throw new ServerErrorException(9999);
+        }
+    }
 
     public static <T> String objectToJson(T o) {
         try {
@@ -33,4 +48,5 @@ public class GenericAndJson {
     public void setMapper(ObjectMapper mapper) {
         GenericAndJson.mapper = mapper;
     }
+
 }

@@ -8,14 +8,15 @@
  */
 package com.meng.missyou.model;
 
-import com.meng.missyou.util.ListAndJson;
+import com.meng.missyou.util.GenericAndJson;
+import jdk.internal.org.objectweb.asm.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -33,11 +34,29 @@ public class Sku extends BaseEntity {
     private Long spuId;
     private Long categoryId;
     private Long rootCategoryId;
-    @Convert(converter = ListAndJson.class)
-    private List<Object> specs;
+    //@Convert(converter = ListAndJson.class)
+    private String specs;
     private String code;
     private Long stock;
 //    @Convert(converter = MapAndJson.class)
 //    private Map<String, Object> test;
 
+
+    public List<Spec> getSpecs() {
+        //return specs;
+        if (this.specs == null) {
+            return Collections.emptyList();
+        }
+        return GenericAndJson.jsonToList(this.specs, new TypeReference<List<Spec>>() {
+
+        });
+    }
+
+    public void setSpecs(List<Spec> specs) {
+        //this.specs = specs;
+        if (specs == null) {
+            return;
+        }
+        this.specs = GenericAndJson.objectToJson(specs);
+    }
 }

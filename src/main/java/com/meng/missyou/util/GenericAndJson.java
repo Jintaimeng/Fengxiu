@@ -7,24 +7,22 @@ import com.meng.missyou.exception.http.ServerErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class GenericAndJson {
     private static ObjectMapper mapper;
 
-    public static <T> List<T> jsonToList(String s) {
-        if (s == null) {
-            return null;
-        }
-        try {
-            return GenericAndJson.mapper.readValue(s, new TypeReference<List<T>>() {
-            });
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            throw new ServerErrorException(9999);
-        }
-    }
+//    public static <T> List<T> jsonToList(String s) {
+//        if (s == null) {
+//            return null;
+//        }
+//        try {
+//            return GenericAndJson.mapper.readValue(s, new TypeReference<List<T>>() {
+//            });
+//        } catch (JsonProcessingException e) {
+//            e.printStackTrace();
+//            throw new ServerErrorException(9999);
+//        }
+//    }
 
 //    public static <T> T jsonToList(String s, TypeReference<T> tr) {
 //        try {
@@ -47,12 +45,12 @@ public class GenericAndJson {
         }
     }
 
-    public static <T> T jsonToObject(String s, Class<T> classT) {
+    public static <T> T jsonToObject(String s, TypeReference<T> tr) {
         try {
             if (s == null) {
                 return null;
             }
-            return GenericAndJson.mapper.readValue(s, classT);
+            return GenericAndJson.mapper.readValue(s, tr);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new ServerErrorException(9999);

@@ -8,8 +8,8 @@
  */
 package com.meng.missyou.model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.meng.missyou.util.GenericAndJson;
-import jdk.internal.org.objectweb.asm.TypeReference;
 import lombok.Getter;
 import lombok.Setter;
 

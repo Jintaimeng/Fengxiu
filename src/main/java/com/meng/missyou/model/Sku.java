@@ -8,7 +8,6 @@
  */
 package com.meng.missyou.model;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.meng.missyou.util.GenericAndJson;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,9 +46,7 @@ public class Sku extends BaseEntity {
         if (this.specs == null) {
             return Collections.emptyList();
         }
-        return GenericAndJson.jsonToList(this.specs, new TypeReference<List<Spec>>() {
-
-        });
+        return GenericAndJson.jsonToList(this.specs);
     }
 
     public void setSpecs(List<Spec> specs) {

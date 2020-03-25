@@ -10,6 +10,8 @@ import java.util.Optional;
 
 @Repository
 public interface ThemeRepository extends JpaRepository<Theme, Long> {
+
+    //SQL  JPQL:Java Persistence Query Language
     @Query("select t from Theme t where t.name in (:names)")
     List<Theme> findByNames(List<String> names);
 

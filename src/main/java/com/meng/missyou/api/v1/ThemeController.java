@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@
 @RequestMapping("theme")
 @Validated
 public class ThemeController {
@@ -27,13 +26,13 @@ public class ThemeController {
     public List<ThemePureVO> getThemeGroupByNames(@RequestParam(name = "names") String names) {
         List<String> nameList = Arrays.asList(names.split(","));
         List<Theme> themes = this.themeService.findByNames(nameList);
-        List<ThemePureVO> themePureVOS = new ArrayList<>();
+        List<ThemePureVO> list = new ArrayList<>();
         themes.forEach(s -> {
             Mapper mapper = DozerBeanMapperBuilder.buildDefault();
             ThemePureVO themePureVO = mapper.map(s, ThemePureVO.class);
-            themePureVOS.add(themePureVO);
+            list.add(themePureVO);
         });
-        return themePureVOS;
+        return list;
     }
 
     @GetMapping("/name/{name}/with_spu")

@@ -20,6 +20,6 @@ public class CategoryController {
     @GetMapping("/all")
     public CategoriesAllVO getAll() {
         Map<Integer, List<Category>> categories = this.categoryService.getAll();
-
+        return new CategoriesAllVO(categories);
     }
 }

@@ -1,12 +1,13 @@
 package com.meng.missyou.dto.validators;
 
+import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
-//@Constraint(validatedBy = PasswordValidator.class)
+@Constraint(validatedBy = TokenPasswordValidator.class)
 public @interface TokenPassword {
     int min() default 6;
 

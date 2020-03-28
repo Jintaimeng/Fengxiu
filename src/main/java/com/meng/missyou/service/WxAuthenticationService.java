@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WxAuthenticationService {
-    public String code2Session(String code) {
+    public void code2Session(String code) {
 
     }
 

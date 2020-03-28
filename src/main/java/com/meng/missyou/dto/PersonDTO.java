@@ -1,7 +1,7 @@
 package com.meng.missyou.dto;
 
 
-import com.meng.missyou.validators.PasswordEqual;
+import com.meng.missyou.dto.validators.PasswordEqual;
 import lombok.Builder;
 import lombok.Getter;
 import org.hibernate.validator.constraints.Length;

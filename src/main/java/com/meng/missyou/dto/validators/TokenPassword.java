@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Constraint(validatedBy = TokenPasswordValidator.class)
 public @interface TokenPassword {
     int min() default 6;

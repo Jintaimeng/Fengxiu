@@ -14,7 +14,15 @@ import java.util.Map;
 public class TokenController {
     @PostMapping("")
     public Map<String, String> getToken(@RequestBody @Validated TokenGetDTO userData) {
+//        Map<String, String> map = new HashMap<>();
+//        String token = null;
+//        switch (userData.getLoginType()){
+//            case USER_WX:
+//                break;
+//            case USER_Email:
+//                break;
+//            default: throw new NotFoundException(10003);
+//        }
         return null;
-
     }
 }

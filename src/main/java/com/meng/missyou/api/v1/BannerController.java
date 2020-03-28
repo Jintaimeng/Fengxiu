@@ -21,7 +21,7 @@ import javax.validation.constraints.NotBlank;
  * @RestController包括前面两者*/
 
 /*若url前缀都一样，可在类上使用@RequestMapping("/v1/banner")*/
-//@RequestMapping("/banner")
+@RequestMapping("/banner")
 @Validated //使参数校验生效
 public class BannerController {
     //@Autowired //将Diana注入进来  @Autowired(required = false)说明允许为空值

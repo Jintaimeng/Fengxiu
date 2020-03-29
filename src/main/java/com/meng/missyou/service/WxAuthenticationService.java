@@ -3,6 +3,7 @@ package com.meng.missyou.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meng.missyou.exception.http.ParameterException;
+import com.meng.missyou.model.User;
 import com.meng.missyou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.MessageFormat;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class WxAuthenticationService {
@@ -42,6 +44,15 @@ public class WxAuthenticationService {
         if (openid == null) {
             throw new ParameterException(20004);
         }
+        Optional<User> userOptional = this.userRepository.findByOpenid(openid);
+        if (userOptional.isPresent()) {
+            //TODO：返回JWT令牌
+            return "";
+        }
+        User user = User.builder().openid(openid).build();
+        this.userRepository.save(user);
+        //TODO:返回JWT令牌
+        return "";
     }
 
 }

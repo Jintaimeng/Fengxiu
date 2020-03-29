@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.model.User;
 import com.meng.missyou.repository.UserRepository;
+import com.meng.missyou.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,12 +50,13 @@ public class WxAuthenticationService {
         Optional<User> userOptional = this.userRepository.findByOpenid(openid);
         if (userOptional.isPresent()) {
             //TODO：返回JWT令牌
-            return "";
+            return JwtToken.makeToken(userOptional.get().getId());
         }
         User user = User.builder().openid(openid).build();
         this.userRepository.save(user);
         //TODO:返回JWT令牌
-        return "";
+        Long uid = user.getId();
+        return JwtToken.makeToken(uid);
     }
 
 }

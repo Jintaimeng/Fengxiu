@@ -3,19 +3,25 @@ package com.meng.missyou.util;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-
+@Component
 public class JwtToken {
     private static String jwtKey;
     private static Integer expiredTimeIn;
+    private static Integer defaultScope = 8;
 
     public static String makeToken(Long uid, Integer scope) {
         return JwtToken.getToken(uid, scope);
+    }
+
+    public static String makeToken(Long uid) {
+        return JwtToken.getToken(uid, JwtToken.defaultScope);
     }
 
     private static String getToken(Long uid, Integer scope) {

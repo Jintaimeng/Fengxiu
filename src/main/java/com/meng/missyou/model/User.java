@@ -23,7 +23,7 @@ public class User extends BaseEntity {
     private String email;
     private String password;
     private String mobile;
-    private String group;
+    //private String group;
     @Convert(converter = MapAndJson.class)
     private Map<String, Object> wxProfile;
 

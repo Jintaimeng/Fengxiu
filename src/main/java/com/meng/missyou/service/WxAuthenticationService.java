@@ -2,6 +2,7 @@ package com.meng.missyou.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.meng.missyou.exception.http.ParameterException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,13 @@ public class WxAuthenticationService {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private String registerUser(Map<String, Object> session) {
+        String openid = (String) session.get("openid");
+        if (openid == null) {
+            throw new ParameterException(20004);
+        }
     }
 
 }

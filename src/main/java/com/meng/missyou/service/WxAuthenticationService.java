@@ -3,6 +3,7 @@ package com.meng.missyou.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.meng.missyou.exception.http.ParameterException;
+import com.meng.missyou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import java.util.Map;
 public class WxAuthenticationService {
     @Autowired
     private ObjectMapper mapper;
+    @Autowired
+    private UserRepository userRepository;
     @Value("${wx.code2session}")
     private String code2SessionUrl;
     @Value("${wx.appid}")

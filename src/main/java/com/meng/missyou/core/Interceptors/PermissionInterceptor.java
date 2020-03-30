@@ -62,6 +62,9 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
             ScopeLevel scopeLevel = handlerMethod.getMethod().getAnnotation(ScopeLevel.class);
+            if (scopeLevel == null) {
+                return Optional.empty();
+            }
             return Optional.of(scopeLevel);
         }
         return Optional.empty();

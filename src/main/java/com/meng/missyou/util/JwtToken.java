@@ -37,6 +37,19 @@ public class JwtToken {
         return Optional.of(decodedJWT.getClaims());
     }
 
+    public static Boolean verifyToken(String token) {
+        Algorithm algorithm = Algorithm.HMAC256(token);
+        JWTVerifier jwtVerifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT;
+        try {
+            decodedJWT = jwtVerifier.verify(token);
+        } catch (JWTVerificationException e) {
+            return false;
+        }
+        return true;
+
+    }
+
     private static String getToken(Long uid, Integer scope) {
         //JWT的库： jjwt  Auth0
         Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);

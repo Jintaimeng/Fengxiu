@@ -1,5 +1,6 @@
 package com.meng.missyou.api.v1;
 
+import com.meng.missyou.dto.TokenDTO;
 import com.meng.missyou.dto.TokenGetDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.service.WxAuthenticationService;
@@ -34,5 +35,11 @@ public class TokenController {
         }
         map.put("token", token);
         return map;
+    }
+
+    @PostMapping("/verify")
+    public Map<String, Boolean> verify(@RequestBody TokenDTO token) {
+
+
     }
 }

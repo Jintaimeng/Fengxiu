@@ -32,7 +32,11 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         if (!bearerToken.startsWith("bearer")) {
             throw new UnAuthenticatedException(10004);
         }
-        String token = bearerToken.split(" ")[1];
+        String[] tokens = bearerToken.split(" ");
+        if (!(tokens.length == 2)) {
+            throw new UnAuthenticatedException(10004);
+        }
+        String token = tokens[1];
         Optional<Map<String, Claim>> optionalMap = JwtToken.getClaims(token);
         Map<String, Claim> map = optionalMap.orElseThrow(() -> new UnAuthenticatedException(10004));
         Boolean valid = this.hasPermission(scopeLevel.get(), map);

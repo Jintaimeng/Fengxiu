@@ -4,6 +4,7 @@ import com.meng.missyou.dto.TokenDTO;
 import com.meng.missyou.dto.TokenGetDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.service.WxAuthenticationService;
+import com.meng.missyou.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +40,9 @@ public class TokenController {
 
     @PostMapping("/verify")
     public Map<String, Boolean> verify(@RequestBody TokenDTO token) {
-
-
+        Map<String, Boolean> map = new HashMap<>();
+        Boolean valid = JwtToken.verifyToken(token.getToken());
+        map.put("is_valid", valid);
+        return map;
     }
 }

@@ -25,7 +25,7 @@ public class JwtToken {
         return JwtToken.getToken(uid, JwtToken.defaultScope);
     }
 
-    public Optional<Map<String, Claim>> getClaims(String token) {
+    public static Optional<Map<String, Claim>> getClaims(String token) {
         Algorithm algorithm = Algorithm.HMAC256(token);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();//用于解析验证Token
         DecodedJWT decodedJWT;

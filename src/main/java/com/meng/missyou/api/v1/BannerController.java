@@ -1,5 +1,6 @@
 package com.meng.missyou.api.v1;
 
+import com.meng.missyou.core.Interceptors.ScopeLevel;
 import com.meng.missyou.dto.PersonDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.model.Banner;
@@ -73,6 +74,7 @@ public PersonDTO test(@PathVariable @Max(value = 10, message = "不可以超过1
     private BannerService bannerService;
 
     @GetMapping("/name/{name}")
+    @ScopeLevel()
     public Banner getByName(@PathVariable @NotBlank String name) {
         Banner banner = bannerService.getByName(name);
         if (banner == null)

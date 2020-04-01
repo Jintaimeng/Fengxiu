@@ -21,6 +21,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        /*Object handler 就是访问API的方法*/
         Optional<ScopeLevel> scopeLevel = this.getScopeLevel(handler);
         if (!scopeLevel.isPresent()) {
             return true;
@@ -29,7 +30,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         if (StringUtils.isEmpty(bearerToken)) {
             throw new UnAuthenticatedException(10004);
         }
-        if (!bearerToken.startsWith("bearer")) {
+        if (!bearerToken.startsWith("Bearer")) {
             throw new UnAuthenticatedException(10004);
         }
         String[] tokens = bearerToken.split(" ");

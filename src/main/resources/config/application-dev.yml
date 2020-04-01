@@ -13,4 +13,4 @@ spring:
 missyou:
   security:
     jwt-key: 7777777yue
-    token-expired-in: 7200
+    token-expired-in: 86400000

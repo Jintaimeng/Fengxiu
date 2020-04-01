@@ -2,10 +2,9 @@ package com.meng.missyou.model;
 
 import com.meng.missyou.util.MapAndJson;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
-import javax.persistence.Convert;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Map;
 
 @Getter
@@ -14,8 +13,10 @@ import java.util.Map;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Where(clause = "delete_time is null")
 public class User extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String openid;
     private String nickname;

@@ -38,7 +38,7 @@ public class JwtToken {
     }
 
     public static Boolean verifyToken(String token) {
-        Algorithm algorithm = Algorithm.HMAC256(token);
+        Algorithm algorithm = Algorithm.HMAC256(JwtToken.jwtKey);
         JWTVerifier jwtVerifier = JWT.require(algorithm).build();
         DecodedJWT decodedJWT;
         try {

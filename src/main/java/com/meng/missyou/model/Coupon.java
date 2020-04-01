@@ -24,8 +24,8 @@ public class Coupon extends BaseEntity {
     private BigDecimal minus;
     private BigDecimal rate;
     private Integer type;
-    private Object valitiy;
-    //private Long activityId;
+    //private Object valitiy;
+    private Long activityId;
     private String remark;
     private Boolean wholeStore;
 

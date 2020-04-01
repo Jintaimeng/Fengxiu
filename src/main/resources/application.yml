@@ -17,4 +17,4 @@ spring:
 wx:
   appid: wx41e234cedd658326
   appsecret: 7cea02683c273ec2095f22ca8ea451fe
-  code2session: https://qyapi.weixin.qq.com/cgi-bin/miniprogram/jscode2session?access_token=ACCESS_TOKEN&js_code=CODE&grant_type=authorization_code
+  code2session: https://api.weixin.qq.com/sns/jscode2session?appid={0}&secret={1}&js_code={2}&grant_type=authorization_code

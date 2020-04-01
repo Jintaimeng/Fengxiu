@@ -6,7 +6,7 @@ import java.lang.annotation.*;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.FIELD})
 @Constraint(validatedBy = PasswordValidator.class)
 public @interface PasswordEqual {
     int min() default 3;

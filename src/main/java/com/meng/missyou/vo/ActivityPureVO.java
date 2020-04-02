@@ -1,19 +1,17 @@
-package com.meng.missyou.model;
+package com.meng.missyou.vo;
 
+import com.meng.missyou.model.Activity;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Where;
+import org.springframework.beans.BeanUtils;
 
-import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
-@Entity
 @Getter
 @Setter
-@Where(clause = "delete_time is null and online = 1")
-public class Activity extends BaseEntity {
-    @Id
+@NoArgsConstructor
+public class ActivityPureVO {
     private Long id;
     private String title;
     private String description;
@@ -25,8 +23,7 @@ public class Activity extends BaseEntity {
     private String internalTopImg;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activityId")
-    private List<Coupon> couponList;
-
+    public ActivityPureVO(Activity activity) {
+        BeanUtils.copyProperties(activity, this);
+    }
 }

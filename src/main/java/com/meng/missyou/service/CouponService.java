@@ -17,4 +17,9 @@ public class CouponService {
         Date now = new Date();
         return this.couponRepository.findByCategory(cid, now);
     }
+
+    public List<Coupon> getWholeStoreCoupons() {
+        Date now = new Date();
+        return this.couponRepository.findByWholeStore(true, now);
+    }
 }

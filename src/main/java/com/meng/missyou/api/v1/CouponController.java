@@ -26,4 +26,13 @@ public class CouponController {
         }
         return CouponPureVO.getList(coupons);
     }
+
+    @GetMapping("/whole_store")
+    public List<CouponPureVO> geWholeStoreCouponList() {
+        List<Coupon> coupons = this.couponService.getWholeStoreCoupons();
+        if (coupons.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return CouponPureVO.getList(coupons);
+    }
 }

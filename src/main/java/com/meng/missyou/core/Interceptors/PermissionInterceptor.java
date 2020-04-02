@@ -1,9 +1,14 @@
 package com.meng.missyou.core.Interceptors;
 
 import com.auth0.jwt.interfaces.Claim;
+import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.UnAuthenticatedException;
+import com.meng.missyou.model.User;
+import com.meng.missyou.service.UserService;
 import com.meng.missyou.util.JwtToken;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -14,7 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Optional;
 
+@Component
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
+    @Autowired
+    private UserService userService;
+
     public PermissionInterceptor() {
         super();
     }
@@ -41,7 +50,17 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         Optional<Map<String, Claim>> optionalMap = JwtToken.getClaims(token);
         Map<String, Claim> map = optionalMap.orElseThrow(() -> new UnAuthenticatedException(10004));
         Boolean valid = this.hasPermission(scopeLevel.get(), map);
+        if (valid) {
+            this.setToThreadLocal(map);
+        }
         return valid;
+    }
+
+    private void setToThreadLocal(Map<String, Claim> map) {
+        Long uid = map.get("uid").asLong();
+        Integer scope = map.get("scope").asInt();
+        User user = this.userService.getUserById(uid);
+        LocalUser.setUser(user, scope);
     }
 
     @Override

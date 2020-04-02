@@ -3,9 +3,12 @@ package com.meng.missyou.model;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -29,5 +32,7 @@ public class Coupon extends BaseEntity {
     private String remark;
     private Boolean wholeStore;
 
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categoryList")
+    private List<Category> categoryList;
 
 }

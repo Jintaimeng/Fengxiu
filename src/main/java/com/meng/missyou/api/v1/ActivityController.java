@@ -3,6 +3,7 @@ package com.meng.missyou.api.v1;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.model.Activity;
 import com.meng.missyou.service.ActivityService;
+import com.meng.missyou.vo.ActivityCouponVO;
 import com.meng.missyou.vo.ActivityPureVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,4 +26,12 @@ public class ActivityController {
         return new ActivityPureVO(activity);
     }
 
+    @GetMapping("/name/{name}/with_coupon")
+    public ActivityCouponVO getActivityWithCoupons(@PathVariable String name) {
+        Activity activity = this.activityService.getByName(name);
+        if (activity == null) {
+            throw new NotFoundException(40001);
+        }
+        return new ActivityCouponVO(activity);
+    }
 }

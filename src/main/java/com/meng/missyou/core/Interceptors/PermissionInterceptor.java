@@ -56,12 +56,7 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
         return valid;
     }
 
-    private void setToThreadLocal(Map<String, Claim> map) {
-        Long uid = map.get("uid").asLong();
-        Integer scope = map.get("scope").asInt();
-        User user = this.userService.getUserById(uid);
-        LocalUser.setUser(user, scope);
-    }
+
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
@@ -70,7 +65,15 @@ public class PermissionInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        LocalUser.clear();
         super.afterCompletion(request, response, handler, ex);
+    }
+
+    private void setToThreadLocal(Map<String, Claim> map) {
+        Long uid = map.get("uid").asLong();
+        Integer scope = map.get("scope").asInt();
+        User user = this.userService.getUserById(uid);
+        LocalUser.setUser(user, scope);
     }
 
     private boolean hasPermission(ScopeLevel scopeLevel, Map<String, Claim> map) {

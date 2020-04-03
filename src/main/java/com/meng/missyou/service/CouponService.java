@@ -55,4 +55,16 @@ public class CouponService {
                 .build();
         this.userCouponRepository.save(userCouponNew);
     }
+
+    public List<Coupon> getMyAvailableCoupons(Long uid) {
+
+    }
+
+    public List<Coupon> getMyUsedCoupons(Long uid) {
+
+    }
+
+    public List<Coupon> getMyExpiredCoupons(Long uid) {
+
+    }
 }

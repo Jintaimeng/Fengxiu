@@ -8,7 +8,6 @@ import com.meng.missyou.model.User;
 import com.meng.missyou.service.UserService;
 import com.meng.missyou.util.JwtToken;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,7 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 import java.util.Optional;
 
-@Component
+
 public class PermissionInterceptor extends HandlerInterceptorAdapter {
     @Autowired
     private UserService userService;

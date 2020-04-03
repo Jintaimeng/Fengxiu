@@ -4,7 +4,7 @@ import com.meng.missyou.exception.http.HttpException;
 
 public class DeleteSuccess extends HttpException {
     public DeleteSuccess(int code) {
-        this.httpStatusCode = 204;
+        this.httpStatusCode = 200;
         this.code = code;
     }
 }

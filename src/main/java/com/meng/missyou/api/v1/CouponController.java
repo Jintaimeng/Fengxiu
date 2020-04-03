@@ -6,7 +6,9 @@ import com.meng.missyou.core.enumeration.CouponStatus;
 import com.meng.missyou.exception.CreateSuccess;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.model.Coupon;
+import com.meng.missyou.model.User;
 import com.meng.missyou.service.CouponService;
+import com.meng.missyou.vo.CouponCategoryVO;
 import com.meng.missyou.vo.CouponPureVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +67,15 @@ public class CouponController {
                 throw new ParameterException(40001);
         }
         return CouponPureVO.getList(couponList);
+    }
+
+    @ScopeLevel()
+    @GetMapping("/myself/available/with_category")
+    public List<CouponCategoryVO> getUserCouponWithCategory() {
+        User user = LocalUser.getUser();
+        List<Coupon> coupons = this.couponService.getMyAvailableCoupons(user.getId());
+        if (coupons.isEmpty()) {
+            return Collections.emptyList();
+        }
     }
 }

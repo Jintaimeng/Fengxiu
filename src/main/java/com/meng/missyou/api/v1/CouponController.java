@@ -2,6 +2,7 @@ package com.meng.missyou.api.v1;
 
 import com.meng.missyou.core.Interceptors.ScopeLevel;
 import com.meng.missyou.core.LocalUser;
+import com.meng.missyou.core.enumeration.CouponStatus;
 import com.meng.missyou.exception.CreateSuccess;
 import com.meng.missyou.model.Coupon;
 import com.meng.missyou.service.CouponService;
@@ -42,5 +43,21 @@ public class CouponController {
         Long uid = LocalUser.getUser().getId();
         this.couponService.collectOneCoupon(uid, id);
         throw new CreateSuccess(0);
+    }
+
+    @ScopeLevel
+    @GetMapping("/myself/by/status/{status}")
+    public List<CouponPureVO> getMyCouponByStatus(@PathVariable Integer status) {
+        Long uid = LocalUser.getUser().getId();
+        List<Coupon> couponList;
+        switch (CouponStatus.toType(status)) {
+            case AVAILABLE:
+                break;
+            case USED:
+                break;
+            case EXPIRED:
+                break;
+        }
+        return CouponPureVO.getList(couponList);
     }
 }

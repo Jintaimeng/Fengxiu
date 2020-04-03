@@ -1,5 +1,6 @@
 package com.meng.missyou.service;
 
+import com.meng.missyou.core.enumeration.CouponStatus;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.model.Activity;
@@ -44,7 +45,12 @@ public class CouponService {
             throw new ParameterException(40005);
         }
         this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new ParameterException(40006));
-        UserCoupon userCouponNew = UserCoupon.builder().userId(uid).couponId(couponId).build();
+        UserCoupon userCouponNew = UserCoupon.builder()
+                .userId(uid)
+                .couponId(couponId)
+                .status(CouponStatus.AVAILABLE.getValue())
+                .createTime(now)
+                .build();
         this.userCouponRepository.save(userCouponNew);
     }
 }

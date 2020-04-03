@@ -7,6 +7,10 @@ public enum CouponStatus {
 
     private Integer value;
 
+    public Integer getValue() {
+        return this.value;
+    }
+
     CouponStatus(Integer value, String description) {
         this.value = value;
     }

@@ -57,14 +57,17 @@ public class CouponService {
     }
 
     public List<Coupon> getMyAvailableCoupons(Long uid) {
-
+        Date now = new Date();
+        return this.couponRepository.findMyAvailable(uid, now);
     }
 
     public List<Coupon> getMyUsedCoupons(Long uid) {
-
+        Date now = new Date();
+        return this.couponRepository.findMyUsed(uid, now);
     }
 
     public List<Coupon> getMyExpiredCoupons(Long uid) {
-
+        Date now = new Date();
+        return this.couponRepository.findMyExpired(uid, now);
     }
 }

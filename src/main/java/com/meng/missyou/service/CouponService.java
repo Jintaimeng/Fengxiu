@@ -44,7 +44,9 @@ public class CouponService {
         if (!isIn) {
             throw new ParameterException(40005);
         }
-        this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new ParameterException(40006));
+        this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).ifPresent((userCoupon) -> {
+            throw new ParameterException(40006);
+        });
         UserCoupon userCouponNew = UserCoupon.builder()
                 .userId(uid)
                 .couponId(couponId)

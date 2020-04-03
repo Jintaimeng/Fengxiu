@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("coupon")
@@ -77,5 +78,9 @@ public class CouponController {
         if (coupons.isEmpty()) {
             return Collections.emptyList();
         }
+        return coupons.stream().map(coupon -> {
+            CouponCategoryVO couponCategoryVO = new CouponCategoryVO(coupon);
+            return couponCategoryVO;
+        }).collect(Collectors.toList());
     }
 }

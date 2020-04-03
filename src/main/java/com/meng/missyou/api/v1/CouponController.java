@@ -1,6 +1,7 @@
 package com.meng.missyou.api.v1;
 
 import com.meng.missyou.core.Interceptors.ScopeLevel;
+import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.model.Coupon;
 import com.meng.missyou.service.CouponService;
 import com.meng.missyou.vo.CouponPureVO;
@@ -37,7 +38,7 @@ public class CouponController {
     @ScopeLevel()
     @PostMapping("/collect/{id}")
     public void collectCoupon(@PathVariable Long id) {
-
+        Long uid = LocalUser.getUser().getId();
 
     }
 }

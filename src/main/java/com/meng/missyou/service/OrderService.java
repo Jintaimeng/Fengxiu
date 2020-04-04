@@ -40,7 +40,7 @@ public class OrderService {
         Long couponId = orderDTO.getCouponId();
         CouponChecker couponChecker = null;
         if (couponId != null) {
-            Coupon coupon = this.couponRepository.findById(couponId).orElseThrow(() -> new NotFoundException(40004));
+            Coupon coupon = this.couponRepository.findById(couponId).orElseThrow(() -> new NotFoundException(40003));
             UserCoupon userCoupon = this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new NotFoundException(50006));
             couponChecker = new CouponChecker(coupon, userCoupon);
         }

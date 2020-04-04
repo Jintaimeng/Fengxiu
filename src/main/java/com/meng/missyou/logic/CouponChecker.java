@@ -1,18 +1,24 @@
 package com.meng.missyou.logic;
 
 import com.meng.missyou.core.enumeration.CouponType;
+import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.model.Coupon;
 import com.meng.missyou.model.UserCoupon;
 import com.meng.missyou.util.CommonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Service
 public class CouponChecker {
     private Coupon coupon;
     private UserCoupon userCoupon;
+    @Autowired
+    private IMoneyDiscount iMoneyDiscount;
 
     public CouponChecker(Coupon coupon, UserCoupon userCoupon) {
         this.coupon = coupon;
@@ -38,7 +44,7 @@ public class CouponChecker {
                 }
                 break;
             case FULL_OFF:
-
+                this.iMoneyDiscount.discount()
                 break;
             case NO_THRESHOLD_MINUS:
                 break;

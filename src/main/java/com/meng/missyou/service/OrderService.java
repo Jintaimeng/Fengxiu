@@ -1,5 +1,6 @@
 package com.meng.missyou.service;
 
+import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.dto.OrderDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.exception.http.ParameterException;
@@ -26,6 +27,8 @@ public class OrderService {
     private CouponRepository couponRepository;
     @Autowired
     private UserCouponRepository userCouponRepository;
+    @Autowired
+    private IMoneyDiscount iMoneyDiscount;
 
 
     public void isOk(Long uid, OrderDTO orderDTO) {
@@ -42,7 +45,7 @@ public class OrderService {
         if (couponId != null) {
             Coupon coupon = this.couponRepository.findById(couponId).orElseThrow(() -> new NotFoundException(40003));
             UserCoupon userCoupon = this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new NotFoundException(50006));
-            couponChecker = new CouponChecker(coupon, userCoupon);
+            couponChecker = new CouponChecker(coupon, userCoupon, iMoneyDiscount);
         }
     }
 }

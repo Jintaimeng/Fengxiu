@@ -13,16 +13,16 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.Date;
 
-@Service
+
 public class CouponChecker {
     private Coupon coupon;
     private UserCoupon userCoupon;
-    @Autowired
     private IMoneyDiscount iMoneyDiscount;
 
-    public CouponChecker(Coupon coupon, UserCoupon userCoupon) {
+    public CouponChecker(Coupon coupon, UserCoupon userCoupon, IMoneyDiscount iMoneyDiscount) {
         this.coupon = coupon;
         this.userCoupon = userCoupon;
+        this.iMoneyDiscount = iMoneyDiscount;
     }
 
     public void isOk() {

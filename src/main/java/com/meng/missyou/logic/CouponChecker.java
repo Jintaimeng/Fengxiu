@@ -7,8 +7,6 @@ import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.model.Coupon;
 import com.meng.missyou.model.UserCoupon;
 import com.meng.missyou.util.CommonUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -38,18 +36,22 @@ public class CouponChecker {
         switch (CouponType.toType(this.coupon.getType())) {
             case FULL_MINUS:
                 serverFinalTotalPrice = serverTotalPrice.subtract(this.coupon.getMinus());
-                int compare = serverFinalTotalPrice.compareTo(orderFinalTotalPrice);
-                if (compare != 0) {
+                break;
+            case FULL_OFF:
+                serverFinalTotalPrice = this.iMoneyDiscount.discount(serverTotalPrice, this.coupon.getRate());
+                break;
+            case NO_THRESHOLD_MINUS:
+                serverFinalTotalPrice = serverTotalPrice.subtract(this.coupon.getMinus());
+                if (serverFinalTotalPrice.compareTo(new BigDecimal("0")) < 0) {
                     throw new ForbiddenException(50008);
                 }
                 break;
-            case FULL_OFF:
-                this.iMoneyDiscount.discount()
-                break;
-            case NO_THRESHOLD_MINUS:
-                break;
             default:
-                throw new ParameterException();
+                throw new ParameterException(40009);
+        }
+        int compare = serverFinalTotalPrice.compareTo(orderFinalTotalPrice);
+        if (compare != 0) {
+            throw new ForbiddenException(50008);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.meng.missyou.logic;
 
+import com.meng.missyou.bo.SkuOrderBO;
 import com.meng.missyou.core.enumeration.CouponType;
 import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.exception.http.ForbiddenException;
@@ -10,6 +11,7 @@ import com.meng.missyou.util.CommonUtil;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 
 public class CouponChecker {
@@ -55,7 +57,11 @@ public class CouponChecker {
         }
     }
 
-    public void canBeUsed() {
+    public void canBeUsed(List<SkuOrderBO> skuOrderBOList, BigDecimal serverTotalPrice) {
+        BigDecimal orderCategoryPrice;
+        if (this.coupon.getWholeStore()) {
+            orderCategoryPrice = serverTotalPrice;
+        }
 
     }
 }

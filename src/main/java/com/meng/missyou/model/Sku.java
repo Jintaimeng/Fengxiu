@@ -41,6 +41,9 @@ public class Sku extends BaseEntity {
 //    @Convert(converter = MapAndJson.class)
 //    private Map<String, Object> test;
 
+    public BigDecimal getActualPrice() {
+        return discountPrice == null ? this.price : this.discountPrice;
+    }
 
     public List<Spec> getSpecs() {
         //return specs;

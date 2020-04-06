@@ -64,4 +64,13 @@ public class CouponChecker {
         }
 
     }
+
+    private BigDecimal getSumByCategoryId(List<SkuOrderBO> skuOrderBOList, Long cid) {
+        BigDecimal sum = skuOrderBOList.stream()
+                .filter(skuOrderBO -> skuOrderBO.getCategoryId().equals(cid))
+                .map(skuOrderBO -> skuOrderBO.getTotalPrice())
+                .reduce(BigDecimal::add)
+                .orElse(new BigDecimal("0"));
+        return sum;
+    }
 }

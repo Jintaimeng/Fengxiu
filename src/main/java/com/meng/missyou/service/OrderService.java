@@ -45,7 +45,7 @@ public class OrderService {
         if (couponId != null) {
             Coupon coupon = this.couponRepository.findById(couponId).orElseThrow(() -> new NotFoundException(40003));
             UserCoupon userCoupon = this.userCouponRepository.findFirstByUserIdAndCouponId(uid, couponId).orElseThrow(() -> new NotFoundException(50006));
-            couponChecker = new CouponChecker(coupon, userCoupon, iMoneyDiscount);
+            couponChecker = new CouponChecker(coupon, iMoneyDiscount);
         }
     }
 }

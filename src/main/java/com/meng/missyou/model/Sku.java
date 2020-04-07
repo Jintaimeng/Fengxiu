@@ -12,6 +12,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.meng.missyou.util.GenericAndJson;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -23,6 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 //@TypeDef(name="json", typeClass = JsonStringType.class)
+@Where(clause = "delete_time is null and online = 1")
 public class Sku extends BaseEntity {
     @Id
     private Long id;

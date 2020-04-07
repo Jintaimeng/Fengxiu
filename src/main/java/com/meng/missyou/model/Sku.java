@@ -8,6 +8,7 @@
  */
 package com.meng.missyou.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.meng.missyou.util.GenericAndJson;
 import lombok.Getter;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
@@ -62,5 +64,11 @@ public class Sku extends BaseEntity {
             return;
         }
         this.specs = GenericAndJson.objectToJson(specs);
+    }
+
+    @JsonIgnore
+    public List<String> getSpecValueList() {
+        return this.getSpecs().stream().map(spec -> spec.getValue()).collect(Collectors.toList());
+
     }
 }

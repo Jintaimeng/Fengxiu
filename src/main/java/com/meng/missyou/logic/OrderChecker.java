@@ -4,7 +4,9 @@ import com.meng.missyou.bo.SkuOrderBO;
 import com.meng.missyou.dto.OrderDTO;
 import com.meng.missyou.dto.SkuInfoDTO;
 import com.meng.missyou.exception.http.ParameterException;
+import com.meng.missyou.model.OrderSku;
 import com.meng.missyou.model.Sku;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ public class OrderChecker {
     private List<Sku> serverSkuList;
     private CouponChecker couponChecker;
     private Integer maxSkuLimit;
+    @Getter
+    private List<OrderSku> orderSkuList = new ArrayList<>();
 
 
     public OrderChecker(OrderDTO orderDTO, List<Sku> serverSkuList, CouponChecker couponChecker, Integer maxSkuLimit) {
@@ -22,6 +26,18 @@ public class OrderChecker {
         this.serverSkuList = serverSkuList;
         this.couponChecker = couponChecker;
         this.maxSkuLimit = maxSkuLimit;
+    }
+
+    public String getLeaderImg() {
+        return this.serverSkuList.get(0).getImg();
+    }
+
+    public String getLeaderTitle() {
+        return this.serverSkuList.get(0).getTitle();
+    }
+
+    public Integer getTotalCount() {
+        return this.orderDTO.getSkuInfoDTOList().stream().map(skuInfoDTO -> skuInfoDTO.getCount()).reduce(Integer::sum).orElse(0);
     }
 
     public void isOk() {
@@ -41,6 +57,7 @@ public class OrderChecker {
             this.beyondSkuStock(sku, skuInfoDTO);
             serverTotalPrice.add(this.calculateSkuOrderPrice(sku, skuInfoDTO));
             skuOrderBOList.add(new SkuOrderBO(sku, skuInfoDTO));
+            this.orderSkuList.add(new OrderSku(sku, skuInfoDTO));
         }
         this.totalPriceIsOk(orderDTO.getTotalPrice(), serverTotalPrice);
         if (this.couponChecker != null) {

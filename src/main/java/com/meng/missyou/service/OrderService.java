@@ -5,12 +5,16 @@ import com.meng.missyou.dto.OrderDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.logic.CouponChecker;
+import com.meng.missyou.logic.OrderChecker;
 import com.meng.missyou.model.Coupon;
+import com.meng.missyou.model.Order;
 import com.meng.missyou.model.Sku;
 import com.meng.missyou.model.UserCoupon;
 import com.meng.missyou.repository.CouponRepository;
 import com.meng.missyou.repository.UserCouponRepository;
+import com.meng.missyou.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -30,8 +34,26 @@ public class OrderService {
     @Autowired
     private IMoneyDiscount iMoneyDiscount;
 
+    @Value("${missyou.order.max-sku-limit}")
+    private int maxSkuLimit;
+    @Value("${missyou.order.pay-time-limit}")
+    private Integer payTimeLimit;
 
-    public void isOk(Long uid, OrderDTO orderDTO) {
+    public void placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
+        String orderNo = OrderUtil.makeOrderNo();
+        Order order = Order.builder()
+                .orderNo(orderNo)
+                .totalPrice(orderDTO.getTotalPrice())
+                .finalTotalPrice(orderDTO.getFinalTotalPrice())
+                .userId(uid)
+                .totalCount(orderChecker.getTotalCount().longValue())
+                .snapImg(orderChecker.getLeaderImg())
+                .snapTitle(orderChecker.getLeaderTitle())
+                .status()
+        //.snapAddress(orderDTO.getAddress()
+    }
+
+    public OrderChecker isOk(Long uid, OrderDTO orderDTO) {
         if (orderDTO.getFinalTotalPrice().compareTo(new BigDecimal("0")) < 0) {
             throw new ParameterException(50011);
         }
@@ -48,5 +70,9 @@ public class OrderService {
                     .orElseThrow(() -> new NotFoundException(50006));
             couponChecker = new CouponChecker(coupon, iMoneyDiscount);
         }
+        OrderChecker orderChecker = new OrderChecker(orderDTO, skuList, couponChecker, maxSkuLimit);
+        orderChecker.isOk();
+        return orderChecker;
     }
+
 }

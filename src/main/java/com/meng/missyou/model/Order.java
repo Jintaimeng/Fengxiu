@@ -1,5 +1,8 @@
 package com.meng.missyou.model;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.meng.missyou.dto.OrderAddressDTO;
+import com.meng.missyou.util.GenericAndJson;
 import lombok.*;
 import org.hibernate.annotations.Where;
 
@@ -30,5 +33,30 @@ public class Order extends BaseEntity {
     private BigDecimal finalTotalPrice;
     private Integer status;
 
+    public OrderAddressDTO getSnapAddress() {
+        if (this.snapAddress == null) {
+            return null;
+        }
+        OrderAddressDTO orderAddressDTO = GenericAndJson.jsonToObject(snapAddress, new TypeReference<OrderAddressDTO>() {
+        });
+        return orderAddressDTO;
+    }
+
+    public void setSnapAddress(OrderAddressDTO orderAddressDTO) {
+        this.snapAddress = GenericAndJson.objectToJson(orderAddressDTO);
+    }
+
+    public OrderSku getSnapItems() {
+        if (this.snapItems == null) {
+            return null;
+        }
+        OrderSku orderSku = GenericAndJson.jsonToObject(snapItems, new TypeReference<OrderSku>() {
+        });
+        return orderSku;
+    }
+
+    public void setSnapItems(OrderSku orderSku) {
+        this.snapItems = GenericAndJson.objectToJson(orderSku);
+    }
 
 }

@@ -1,16 +1,15 @@
 package com.meng.missyou.service;
 
+import com.meng.missyou.core.enumeration.OrderStatus;
 import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.dto.OrderDTO;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.logic.CouponChecker;
 import com.meng.missyou.logic.OrderChecker;
-import com.meng.missyou.model.Coupon;
-import com.meng.missyou.model.Order;
-import com.meng.missyou.model.Sku;
-import com.meng.missyou.model.UserCoupon;
+import com.meng.missyou.model.*;
 import com.meng.missyou.repository.CouponRepository;
+import com.meng.missyou.repository.OrderRepository;
 import com.meng.missyou.repository.UserCouponRepository;
 import com.meng.missyou.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +22,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
-    //    @Autowired
-//    private OrderRepository orderRepository;
+    @Autowired
+    private OrderRepository orderRepository;
     @Autowired
     private SkuService skuService;
     @Autowired
@@ -39,7 +38,7 @@ public class OrderService {
     @Value("${missyou.order.pay-time-limit}")
     private Integer payTimeLimit;
 
-    public void placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
+    public Long placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
         String orderNo = OrderUtil.makeOrderNo();
         Order order = Order.builder()
                 .orderNo(orderNo)
@@ -49,8 +48,15 @@ public class OrderService {
                 .totalCount(orderChecker.getTotalCount().longValue())
                 .snapImg(orderChecker.getLeaderImg())
                 .snapTitle(orderChecker.getLeaderTitle())
-                .status()
-        //.snapAddress(orderDTO.getAddress()
+                .status(OrderStatus.UNPAID.value())
+                .build();
+        order.setSnapAddress(orderDTO.getAddress());
+        order.setSnapItems(orderChecker.getOrderSkuList());
+        this.orderRepository.save(order);
+        //reduceStock
+        //核销优惠券
+        //加入到延迟消息队列
+        return order.getId();
     }
 
     public OrderChecker isOk(Long uid, OrderDTO orderDTO) {
@@ -75,4 +81,8 @@ public class OrderService {
         return orderChecker;
     }
 
+    private void reduceStock(OrderChecker orderChecker) {
+        List<OrderSku> orderSkuList = orderChecker.getOrderSkuList();
+
+    }
 }

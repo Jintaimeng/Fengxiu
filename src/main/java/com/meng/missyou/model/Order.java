@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 @Getter
@@ -37,7 +38,7 @@ public class Order extends BaseEntity {
         if (this.snapAddress == null) {
             return null;
         }
-        OrderAddressDTO orderAddressDTO = GenericAndJson.jsonToObject(snapAddress, new TypeReference<OrderAddressDTO>() {
+        OrderAddressDTO orderAddressDTO = GenericAndJson.jsonToObject(this.snapAddress, new TypeReference<OrderAddressDTO>() {
         });
         return orderAddressDTO;
     }
@@ -46,17 +47,20 @@ public class Order extends BaseEntity {
         this.snapAddress = GenericAndJson.objectToJson(orderAddressDTO);
     }
 
-    public OrderSku getSnapItems() {
+    public List<OrderSku> getSnapItems() {
         if (this.snapItems == null) {
             return null;
         }
-        OrderSku orderSku = GenericAndJson.jsonToObject(snapItems, new TypeReference<OrderSku>() {
+        List<OrderSku> orderSkuList = GenericAndJson.jsonToObject(this.snapItems, new TypeReference<List<OrderSku>>() {
         });
-        return orderSku;
+        return orderSkuList;
     }
 
-    public void setSnapItems(OrderSku orderSku) {
-        this.snapItems = GenericAndJson.objectToJson(orderSku);
+    public void setSnapItems(List<OrderSku> orderSkuList) {
+        if (orderSkuList.isEmpty()) {
+            return;
+        }
+        this.snapItems = GenericAndJson.objectToJson(orderSkuList);
     }
 
 }

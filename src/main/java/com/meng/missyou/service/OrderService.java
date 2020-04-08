@@ -10,11 +10,13 @@ import com.meng.missyou.logic.OrderChecker;
 import com.meng.missyou.model.*;
 import com.meng.missyou.repository.CouponRepository;
 import com.meng.missyou.repository.OrderRepository;
+import com.meng.missyou.repository.SkuRepository;
 import com.meng.missyou.repository.UserCouponRepository;
 import com.meng.missyou.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -32,12 +34,15 @@ public class OrderService {
     private UserCouponRepository userCouponRepository;
     @Autowired
     private IMoneyDiscount iMoneyDiscount;
+    @Autowired
+    private SkuRepository skuRepository;
 
     @Value("${missyou.order.max-sku-limit}")
     private int maxSkuLimit;
     @Value("${missyou.order.pay-time-limit}")
     private Integer payTimeLimit;
 
+    @Transactional //添加事务，将连续的多次数据库更新，插入操作包裹在一起
     public Long placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
         String orderNo = OrderUtil.makeOrderNo();
         Order order = Order.builder()
@@ -53,6 +58,7 @@ public class OrderService {
         order.setSnapAddress(orderDTO.getAddress());
         order.setSnapItems(orderChecker.getOrderSkuList());
         this.orderRepository.save(order);
+        this.reduceStock(orderChecker);
         //reduceStock
         //核销优惠券
         //加入到延迟消息队列
@@ -83,6 +89,11 @@ public class OrderService {
 
     private void reduceStock(OrderChecker orderChecker) {
         List<OrderSku> orderSkuList = orderChecker.getOrderSkuList();
-
+        for (OrderSku orderSku : orderSkuList) {
+            int result = this.skuRepository.reduceStock(orderSku.getId(), orderSku.getCount().longValue());
+            if (result != 1) {
+                throw new ParameterException(50003);
+            }
+        }
     }
 }

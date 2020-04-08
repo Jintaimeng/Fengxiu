@@ -13,11 +13,11 @@ public interface UserCouponRepository extends JpaRepository<UserCoupon, Long> {
     Optional<UserCoupon> findFirstByUserIdAndCouponId(Long uid, Long couponId);
 
     @Modifying
-    @Query("update UserCoupon uc\\n\" +\n" +
-            "            \"set uc.status = 2, uc.orderId = :oid\\n\" +\n" +
-            "            \"where uc.userId = :uid\\n\" +\n" +
-            "            \"and uc.couponId = :couponId\\n\" +\n" +
-            "            \"and uc.status = 1\\n\" +\n" +
-            "            \"and uc.orderId is null ")
+    @Query("update UserCoupon uc\n" +
+            "set uc.status = 2, uc.orderId = :oid\n" +
+            "where uc.userId = :uid\n" +
+            "and uc.couponId = :couponId\n" +
+            "and uc.status = 1\n" +
+            "and uc.orderId is null ")
     int writeOff(Long couponId, Long oid, Long uid);
 }

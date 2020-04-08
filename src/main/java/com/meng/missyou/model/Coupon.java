@@ -32,7 +32,7 @@ public class Coupon extends BaseEntity {
     private String remark;
     private Boolean wholeStore;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categoryList")
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "couponList")
     private List<Category> categoryList;
 
 }

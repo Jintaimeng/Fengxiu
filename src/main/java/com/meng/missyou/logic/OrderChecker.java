@@ -55,7 +55,7 @@ public class OrderChecker {
             SkuInfoDTO skuInfoDTO = this.orderDTO.getSkuInfoDTOList().get(i);
             this.containsSoldOutSku(sku);
             this.beyondSkuStock(sku, skuInfoDTO);
-            serverTotalPrice.add(this.calculateSkuOrderPrice(sku, skuInfoDTO));
+            serverTotalPrice = serverTotalPrice.add(this.calculateSkuOrderPrice(sku, skuInfoDTO));
             skuOrderBOList.add(new SkuOrderBO(sku, skuInfoDTO));
             this.orderSkuList.add(new OrderSku(sku, skuInfoDTO));
         }

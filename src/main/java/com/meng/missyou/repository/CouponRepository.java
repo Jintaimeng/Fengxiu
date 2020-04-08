@@ -11,19 +11,19 @@ import java.util.List;
 
 @Repository
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
-    @Query("select c from Coupon c\\n\" +\n" +
-            "            \"join c.categoryList ca\\n\" +\n" +
-            "            \"join Activity a on a.id = c.activityId\\n\" +\n" +
-            "            \"where ca.id = :cid\\n\" +\n" +
-            "            \"and a.startTime < :now\\n\" +\n" +
-            "            \"and a.endTime > :now\\n")
+    @Query("select c from Coupon c\n" +
+            "join c.categoryList ca\n" +
+            "join Activity a on a.id = c.activityId\n" +
+            "where ca.id = :cid\n" +
+            "and a.startTime < :now\n" +
+            "and a.endTime > :now\n")
     List<Coupon> findByCategory(Long cid, Date now);
 
-    @Query("select c from Coupon c\\n\" +\n" +
-            "            \"join Activity a on c.activityId = a.id\\n\" +\n" +
-            "            \"where c.wholeStore = :isWholeStore\\n\" +\n" +
-            "            \"and a.startTime < :now\\n\" +\n" +
-            "            \"and a.endTime > :now\\n")
+    @Query("select c from Coupon c\n" +
+            "join Activity a on c.activityId = a.id\n" +
+            "where c.wholeStore = :isWholeStore\n" +
+            "and a.startTime < :now\n" +
+            "and a.endTime > :now\n")
     List<Coupon> findByWholeStore(Boolean isWholeStore, Date now);
 
     @Query("select c from Coupon c\n" +

@@ -3,6 +3,7 @@ package com.meng.missyou.service;
 import com.meng.missyou.core.enumeration.OrderStatus;
 import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.dto.OrderDTO;
+import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.logic.CouponChecker;
@@ -59,6 +60,9 @@ public class OrderService {
         order.setSnapItems(orderChecker.getOrderSkuList());
         this.orderRepository.save(order);
         this.reduceStock(orderChecker);
+        if (orderDTO.getCouponId() != null) {
+            this.writeOffCoupon(orderDTO.getCouponId(), order.getId(), uid);
+        }
         //reduceStock
         //核销优惠券
         //加入到延迟消息队列
@@ -94,6 +98,13 @@ public class OrderService {
             if (result != 1) {
                 throw new ParameterException(50003);
             }
+        }
+    }
+
+    private void writeOffCoupon(Long couponId, Long oid, Long uid) {
+        int result = this.userCouponRepository.writeOff(couponId, oid, uid);
+        if (result != 1) {
+            throw new ForbiddenException(40012);
         }
     }
 }

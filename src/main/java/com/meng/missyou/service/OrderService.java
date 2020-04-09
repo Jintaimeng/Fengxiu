@@ -1,5 +1,6 @@
 package com.meng.missyou.service;
 
+import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.core.enumeration.OrderStatus;
 import com.meng.missyou.core.money.IMoneyDiscount;
 import com.meng.missyou.dto.OrderDTO;
@@ -17,11 +18,16 @@ import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,6 +82,13 @@ public class OrderService {
         //核销优惠券
         //加入到延迟消息队列
         return order.getId();
+    }
+
+    public Page<Order> getUnpaid(Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createTime").descending());
+        Long uid = LocalUser.getUser().getId();
+        Date now = new Date();
+        return this.orderRepository.findByExpiredTimeGreaterThanAndStatusAndUserId(now, OrderStatus.UNPAID.value(), uid, pageable);
     }
 
     public OrderChecker isOk(Long uid, OrderDTO orderDTO) {

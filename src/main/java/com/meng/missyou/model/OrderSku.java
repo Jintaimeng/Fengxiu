@@ -2,6 +2,7 @@ package com.meng.missyou.model;
 
 import com.meng.missyou.dto.SkuInfoDTO;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@NoArgsConstructor
 public class OrderSku {
     private Long id;
     private Long spuId;

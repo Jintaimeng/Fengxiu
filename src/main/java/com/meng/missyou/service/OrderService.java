@@ -29,6 +29,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -98,6 +99,11 @@ public class OrderService {
             return this.orderRepository.findByUserId(uid, pageable);
         }
         return this.orderRepository.findByUserIdAndStatus(uid, status, pageable);
+    }
+
+    public Optional<Order> getOrderDetail(Long oid) {
+        Long uid = LocalUser.getUser().getId();
+        return this.orderRepository.findFirstByUserIdAndId(uid, oid);
     }
 
     public OrderChecker isOk(Long uid, OrderDTO orderDTO) {

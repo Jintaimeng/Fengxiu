@@ -4,11 +4,13 @@ import com.meng.missyou.bo.PageCounter;
 import com.meng.missyou.core.Interceptors.ScopeLevel;
 import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.dto.OrderDTO;
+import com.meng.missyou.exception.http.NotFoundException;
 import com.meng.missyou.logic.OrderChecker;
 import com.meng.missyou.model.Order;
 import com.meng.missyou.service.OrderService;
 import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.vo.OrderIdVO;
+import com.meng.missyou.vo.OrderPureVO;
 import com.meng.missyou.vo.OrderSimplifyVO;
 import com.meng.missyou.vo.PagingDozer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("order")
@@ -57,4 +61,12 @@ public class OrderController {
         return pagingDozer;
     }
 
+    @ScopeLevel()
+    @GetMapping("/detail/{id}")
+    public OrderPureVO getOrderDetail(@PathVariable(name = "id") Long oid) {
+        Optional<Order> orderOptional = this.orderService.getOrderDetail(oid);
+        return orderOptional.map(order -> new OrderPureVO(order, payTimeLimit)).orElseThrow(() -> {
+            throw new NotFoundException(50009);
+        });
+    }
 }

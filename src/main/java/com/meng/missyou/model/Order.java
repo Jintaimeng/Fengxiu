@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -17,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Where(clause = "delete_time is null")
-@Table(name = "`Order`")
+@Table(name = "`order`")
 public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +31,8 @@ public class Order extends BaseEntity {
     private String snapTitle;
     private String snapItems;
     private String snapAddress;
+    private Date expiredTime;
+    private Date placedTime;
     private String prepayId;
     private BigDecimal finalTotalPrice;
     private Integer status;

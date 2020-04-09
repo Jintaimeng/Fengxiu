@@ -13,6 +13,7 @@ import com.meng.missyou.repository.CouponRepository;
 import com.meng.missyou.repository.OrderRepository;
 import com.meng.missyou.repository.SkuRepository;
 import com.meng.missyou.repository.UserCouponRepository;
+import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.util.OrderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -46,6 +48,10 @@ public class OrderService {
     @Transactional //添加事务，将连续的多次数据库更新，插入操作包裹在一起
     public Long placeOrder(Long uid, OrderDTO orderDTO, OrderChecker orderChecker) {
         String orderNo = OrderUtil.makeOrderNo();
+        Calendar now = Calendar.getInstance();
+        Calendar now1 = (Calendar) now.clone();
+        Calendar expiredTime = CommonUtil.addSomeSeconds(now, this.payTimeLimit);
+        now.add(Calendar.SECOND, payTimeLimit);
         Order order = Order.builder()
                 .orderNo(orderNo)
                 .totalPrice(orderDTO.getTotalPrice())
@@ -55,9 +61,12 @@ public class OrderService {
                 .snapImg(orderChecker.getLeaderImg())
                 .snapTitle(orderChecker.getLeaderTitle())
                 .status(OrderStatus.UNPAID.value())
+                .expiredTime(expiredTime.getTime())
+                .placedTime(now1.getTime())
                 .build();
         order.setSnapAddress(orderDTO.getAddress());
         order.setSnapItems(orderChecker.getOrderSkuList());
+        order.setCreateTime(now1.getTime());
         this.orderRepository.save(order);
         this.reduceStock(orderChecker);
         if (orderDTO.getCouponId() != null) {

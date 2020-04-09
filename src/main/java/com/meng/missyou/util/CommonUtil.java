@@ -2,6 +2,7 @@ package com.meng.missyou.util;
 
 import com.meng.missyou.bo.PageCounter;
 
+import java.util.Calendar;
 import java.util.Date;
 
 public class CommonUtil {
@@ -9,6 +10,11 @@ public class CommonUtil {
         Integer pageNum = start / count;
         PageCounter pageCounter = PageCounter.builder().page(pageNum).count(count).build();
         return pageCounter;
+    }
+
+    public static Calendar addSomeSeconds(Calendar calendar, int seconds) {
+        calendar.add(Calendar.SECOND, seconds);
+        return calendar;
     }
 
     public static Boolean isInTimeLime(Date now, Date start, Date end) {

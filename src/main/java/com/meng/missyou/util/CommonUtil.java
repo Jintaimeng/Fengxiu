@@ -26,4 +26,24 @@ public class CommonUtil {
         }
         return false;
     }
+
+    //period  单位：秒
+    public static Boolean isOutOfDate(Date startTime, Long period) {
+        Long now = Calendar.getInstance().getTimeInMillis();
+        Long startTimeStamp = startTime.getTime();
+        Long periodMillSecond = period * 1000;
+        if (now > startTimeStamp + periodMillSecond) {
+            return true;
+        }
+        return false;
+    }
+
+    public static Boolean isOutOfDate(Date expiredTime) {
+        Long now = Calendar.getInstance().getTimeInMillis();
+        Long expiredStamp = expiredTime.getTime();
+        if (now > expiredStamp) {
+            return true;
+        }
+        return false;
+    }
 }

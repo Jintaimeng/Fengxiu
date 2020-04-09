@@ -1,7 +1,10 @@
 package com.meng.missyou.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.meng.missyou.core.enumeration.OrderStatus;
 import com.meng.missyou.dto.OrderAddressDTO;
+import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.util.GenericAndJson;
 import lombok.*;
 import org.hibernate.annotations.Where;
@@ -65,5 +68,19 @@ public class Order extends BaseEntity {
         }
         this.snapItems = GenericAndJson.objectToJson(orderSkuList);
     }
+
+    @JsonIgnore
+    public OrderStatus getStatusEnum() {
+        return OrderStatus.toType(this.status);
+    }
+
+    public Boolean needCancel() {
+        if (!this.getStatusEnum().equals(OrderStatus.UNPAID)) {
+            return true;
+        }
+        Boolean isOutDate = CommonUtil.isOutOfDate(this.expiredTime);
+        return isOutDate;
+    }
+
 
 }

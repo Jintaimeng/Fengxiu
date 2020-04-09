@@ -91,6 +91,15 @@ public class OrderService {
         return this.orderRepository.findByExpiredTimeGreaterThanAndStatusAndUserId(now, OrderStatus.UNPAID.value(), uid, pageable);
     }
 
+    public Page<Order> getByStatus(Integer status, Integer page, Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createTime").descending());
+        Long uid = LocalUser.getUser().getId();
+        if (status == OrderStatus.All.value()) {
+            return this.orderRepository.findByUserId(uid, pageable);
+        }
+        return this.orderRepository.findByUserIdAndStatus(uid, status, pageable);
+    }
+
     public OrderChecker isOk(Long uid, OrderDTO orderDTO) {
         if (orderDTO.getFinalTotalPrice().compareTo(new BigDecimal("0")) < 0) {
             throw new ParameterException(50011);

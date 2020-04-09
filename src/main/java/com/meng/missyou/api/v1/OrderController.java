@@ -46,4 +46,15 @@ public class OrderController {
         return pagingDozer;
     }
 
+    @ScopeLevel()
+    @GetMapping("/by/status/{status}")
+    public PagingDozer getByStatus(@PathVariable int status, @RequestParam(defaultValue = "0") Integer start,
+                                   @RequestParam(defaultValue = "10") Integer count) {
+        PageCounter page = CommonUtil.convertToPageParameter(start, count);
+        Page<Order> orderPage = this.orderService.getByStatus(status, page.getPage(), page.getCount());
+        PagingDozer pagingDozer = new PagingDozer(orderPage, OrderSimplifyVO.class);
+        pagingDozer.getItems().forEach((o) -> ((OrderSimplifyVO) o).setPeriod(payTimeLimit));
+        return pagingDozer;
+    }
+
 }

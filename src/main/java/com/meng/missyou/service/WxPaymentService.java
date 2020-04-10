@@ -2,6 +2,8 @@ package com.meng.missyou.service;
 
 import com.github.wxpay.sdk.MengWxPayConfig;
 import com.github.wxpay.sdk.WXPay;
+import com.github.wxpay.sdk.WXPayConstants;
+import com.github.wxpay.sdk.WXPayUtil;
 import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.NotFoundException;
@@ -11,6 +13,7 @@ import com.meng.missyou.model.Order;
 import com.meng.missyou.repository.OrderRepository;
 import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.util.HttpRequestProxy;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -56,6 +59,28 @@ public class WxPaymentService {
             this.orderService.updateOrderPrepayId(order.getId(), wxOrder.get("prepay_id"));
         }
         return null;
+    }
+
+    private Map<String, String> makePaySignature(Map<String, String> wxOrder) {
+        String packages = "prepay_id=" + wxOrder.get("prepay_id");
+        Map<String, String> wxPayMap = new HashMap<>();
+        wxPayMap.put("appId", WxPaymentService.mengWxPayConfig.getAppID());
+        wxPayMap.put("timeStamp", CommonUtil.timestamp10());
+        wxPayMap.put("nonceStr", RandomStringUtils.randomAlphabetic(32));
+        wxPayMap.put("package", packages);
+        wxPayMap.put("signType", "HMAC-SHA256");
+        String sign;
+        try {
+            sign = WXPayUtil.generateSignature(wxPayMap, WxPaymentService.mengWxPayConfig.getKey(), WXPayConstants.SignType.HMACSHA256);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ServerErrorException(9999);
+        }
+        Map<String, String> miniPayParams = new HashMap<>();
+        miniPayParams.put("paySign", sign);
+        miniPayParams.putAll(wxPayMap);
+        miniPayParams.remove("appId");
+        return miniPayParams;
     }
 
     private Boolean unifiedOrderSuccess(Map<String, String> wxOrder) {

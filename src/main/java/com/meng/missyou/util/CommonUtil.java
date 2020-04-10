@@ -56,4 +56,10 @@ public class CommonUtil {
     public static String toPlain(BigDecimal p) {
         return p.stripTrailingZeros().toString();
     }
+
+    public static String timestamp10() {
+        Long timestamp13 = Calendar.getInstance().getTimeInMillis();
+        String timestamp13Str = timestamp13.toString();
+        return timestamp13Str.substring(0, timestamp13Str.length() - 3);
+    }
 }

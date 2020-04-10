@@ -128,6 +128,15 @@ public class OrderService {
         return orderChecker;
     }
 
+    public void updateOrderPrepayId(Long orderId, String prePayId) {
+        Optional<Order> order = this.orderRepository.findById(orderId);
+        order.ifPresent(order1 -> {
+            order1.setPrepayId(prePayId);
+            this.orderRepository.save(order1);
+        });
+        order.orElseThrow(() -> new ParameterException(10007));
+    }
+
     private void reduceStock(OrderChecker orderChecker) {
         List<OrderSku> orderSkuList = orderChecker.getOrderSkuList();
         for (OrderSku orderSku : orderSkuList) {

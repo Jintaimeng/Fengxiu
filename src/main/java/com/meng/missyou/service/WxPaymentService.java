@@ -5,6 +5,7 @@ import com.github.wxpay.sdk.WXPay;
 import com.meng.missyou.core.LocalUser;
 import com.meng.missyou.exception.http.ForbiddenException;
 import com.meng.missyou.exception.http.NotFoundException;
+import com.meng.missyou.exception.http.ParameterException;
 import com.meng.missyou.exception.http.ServerErrorException;
 import com.meng.missyou.model.Order;
 import com.meng.missyou.repository.OrderRepository;
@@ -23,7 +24,12 @@ import java.util.Optional;
 public class WxPaymentService {
     @Autowired
     private OrderRepository orderRepository;
+
     private static MengWxPayConfig mengWxPayConfig = new MengWxPayConfig();
+
+    @Autowired
+    private OrderService orderService;
+
     @Value("${missyou.order.pay_callback_host}")
     private String payCallbackHost;
     @Value("${missyou.order.pay_callback_path}")
@@ -37,7 +43,26 @@ public class WxPaymentService {
             throw new ForbiddenException(50010);
         }
         WXPay wxPay = this.assembleWxPayConfig();
-        wxPay.unifiedOrder(this.makePreOrderParams());
+        Map<String, String> params = this.makePreOrderParams(order.getFinalTotalPrice(), order.getOrderNo());
+        Map<String, String> wxOrder;
+        try {
+            wxOrder = wxPay.unifiedOrder(params);
+        } catch (Exception e) {
+            throw new ServerErrorException(9999);
+        }
+        //prepay_id
+        //wx.requestPayment
+        if (this.unifiedOrderSuccess(wxOrder)) {
+            this.orderService.updateOrderPrepayId(order.getId(), wxOrder.get("prepay_id"));
+        }
+        return null;
+    }
+
+    private Boolean unifiedOrderSuccess(Map<String, String> wxOrder) {
+        if (!wxOrder.get("return_code").equals("SUCCESS") || !wxOrder.get("result_code").equals("SUCCESS")) {
+            throw new ParameterException(10007);
+        }
+        return true;
     }
 
     private Map<String, String> makePreOrderParams(BigDecimal serverFinalPrice, String orderNo) {
@@ -52,6 +77,7 @@ public class WxPaymentService {
         data.put("open_id", LocalUser.getUser().getOpenid());
         data.put("spbill_create_ip", HttpRequestProxy.getRemoteRealIp());
         data.put("notify_url", payCallbackUrl);
+        return data;
     }
 
     private WXPay assembleWxPayConfig() {

@@ -2,7 +2,7 @@ package com.github.wxpay.sdk;
 
 import java.io.InputStream;
 
-public class MengWxPayConfigSample extends WXPayConfig {
+public class MengWxPayConfig extends WXPayConfig {
 
     public String getAppID() {
         return "wx41e234cedd658326";

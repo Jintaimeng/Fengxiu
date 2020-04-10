@@ -2,6 +2,7 @@ package com.meng.missyou.util;
 
 import com.meng.missyou.bo.PageCounter;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,5 +46,14 @@ public class CommonUtil {
             return true;
         }
         return false;
+    }
+
+    public static String yuanTOFenPlainString(BigDecimal p) {
+        p = p.multiply(new BigDecimal("100"));
+        return CommonUtil.toPlain(p);
+    }
+
+    public static String toPlain(BigDecimal p) {
+        return p.stripTrailingZeros().toString();
     }
 }

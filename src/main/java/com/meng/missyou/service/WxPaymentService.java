@@ -11,6 +11,7 @@ import com.meng.missyou.repository.OrderRepository;
 import com.meng.missyou.util.CommonUtil;
 import com.meng.missyou.util.HttpRequestProxy;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -23,6 +24,10 @@ public class WxPaymentService {
     @Autowired
     private OrderRepository orderRepository;
     private static MengWxPayConfig mengWxPayConfig = new MengWxPayConfig();
+    @Value("${missyou.order.pay_callback_host}")
+    private String payCallbackHost;
+    @Value("${missyou.order.pay_callback_path}")
+    private String payCallbackPath;
 
     public Map<String, String> preOrder(Long oid) {
         Long uid = LocalUser.getUser().getId();
@@ -36,6 +41,7 @@ public class WxPaymentService {
     }
 
     private Map<String, String> makePreOrderParams(BigDecimal serverFinalPrice, String orderNo) {
+        String payCallbackUrl = payCallbackHost + payCallbackPath;
         Map<String, String> data = new HashMap<>();
         data.put("body", "Sleeve");
         data.put("out_trade_no", orderNo);
@@ -45,7 +51,7 @@ public class WxPaymentService {
         data.put("total_fee", CommonUtil.yuanTOFenPlainString(serverFinalPrice));
         data.put("open_id", LocalUser.getUser().getOpenid());
         data.put("spbill_create_ip", HttpRequestProxy.getRemoteRealIp());
-        data.put("notify_url", )
+        data.put("notify_url", payCallbackUrl);
     }
 
     private WXPay assembleWxPayConfig() {

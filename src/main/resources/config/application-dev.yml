@@ -17,3 +17,5 @@ missyou:
   order:
     max-sku-limit: 800
     pay-time-limit: 3600
+    pay_callback_host: http://talelin.com
+    pay_callback_path: /v1/payment/wx/notify

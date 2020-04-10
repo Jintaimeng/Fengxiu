@@ -58,7 +58,7 @@ public class WxPaymentService {
         if (this.unifiedOrderSuccess(wxOrder)) {
             this.orderService.updateOrderPrepayId(order.getId(), wxOrder.get("prepay_id"));
         }
-        return null;
+        return this.makePaySignature(wxOrder);
     }
 
     private Map<String, String> makePaySignature(Map<String, String> wxOrder) {

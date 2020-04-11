@@ -1,8 +1,8 @@
 package com.meng.missyou.api.v1;
 
-import com.github.wxpay.sdk.MengWxPayConfig;
 import com.meng.missyou.core.Interceptors.ScopeLevel;
 import com.meng.missyou.lib.MengWxNotify;
+import com.meng.missyou.service.WxPaymentNotifyService;
 import com.meng.missyou.service.WxPaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +23,8 @@ import java.util.Map;
 public class PaymentController {
     @Autowired
     private WxPaymentService wxPaymentService;
+    @Autowired
+    private WxPaymentNotifyService wxPaymentNotifyService;
 
     @ScopeLevel()
     @PostMapping("/pay/order/{id}")
@@ -41,5 +43,11 @@ public class PaymentController {
             return MengWxNotify.fail();
         }
         String xml = MengWxNotify.readNotify(s);
+        try {
+            this.wxPaymentNotifyService.ProcessPayNotify(xml);
+        } catch (Exception e) {
+            return MengWxNotify.fail();
+        }
+        return MengWxNotify.success();
     }
 }

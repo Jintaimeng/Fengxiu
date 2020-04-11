@@ -99,7 +99,7 @@ public class WxPaymentService {
         data.put("fee_type", "CNY");
         data.put("trade_type", "JSAPI");
         data.put("total_fee", CommonUtil.yuanTOFenPlainString(serverFinalPrice));
-        data.put("open_id", LocalUser.getUser().getOpenid());
+        data.put("openid", LocalUser.getUser().getOpenid());
         data.put("spbill_create_ip", HttpRequestProxy.getRemoteRealIp());
         data.put("notify_url", payCallbackUrl);
         return data;

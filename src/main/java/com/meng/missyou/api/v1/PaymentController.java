@@ -40,6 +40,6 @@ public class PaymentController {
             e.printStackTrace();
             return MengWxNotify.fail();
         }
-
+        String xml = MengWxNotify.readNotify(s);
     }
 }

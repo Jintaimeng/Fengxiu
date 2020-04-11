@@ -105,7 +105,7 @@ public class WxPaymentService {
         return data;
     }
 
-    private WXPay assembleWxPayConfig() {
+    public WXPay assembleWxPayConfig() {
         WXPay wxPay;
         try {
             wxPay = new WXPay(WxPaymentService.mengWxPayConfig);

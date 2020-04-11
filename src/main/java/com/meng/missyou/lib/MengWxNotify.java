@@ -1,13 +1,31 @@
 package com.meng.missyou.lib;
 
+import com.meng.missyou.exception.http.ServerErrorException;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class MengWxNotify {
     public static String readNotify(InputStream stream) {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(stream));
+        BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
         StringBuilder builder = new StringBuilder();
+        String line;
+        try {
+            while ((line = reader.readLine()) != null) {
+                builder.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            throw new ServerErrorException(9999);
+        } finally {
+            try {
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return builder.toString();
     }
 
     public static String fail() {

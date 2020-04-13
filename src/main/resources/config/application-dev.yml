@@ -10,12 +10,12 @@ spring:
       hibernate:
         show_sql: true
         format_sql: true
-redis:
-  localhost: localhost
-  port: 6379
-  database: 7
-  password:
-  listen-pattern: __keyevent@7__:expired
+  redis:
+    localhost: localhost
+    port: 6379
+    database: 7
+    password:
+    listen-pattern: __keyevent@7__:expired
 missyou:
   security:
     jwt-key: 7777777yue

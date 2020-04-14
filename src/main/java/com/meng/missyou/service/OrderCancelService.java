@@ -19,6 +19,7 @@ public class OrderCancelService {
     private SkuRepository skuRepository;
 
     @Transactional
+    //@EventListener  订阅监听事件，一旦触发就会执行
     public void cancel(OrderMessageBO orderMessageBO) {
         if (orderMessageBO.getOrderId() <= 0) {
             throw new ServerErrorException(9999);

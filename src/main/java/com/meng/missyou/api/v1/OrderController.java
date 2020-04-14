@@ -65,8 +65,6 @@ public class OrderController {
     @GetMapping("/detail/{id}")
     public OrderPureVO getOrderDetail(@PathVariable(name = "id") Long oid) {
         Optional<Order> orderOptional = this.orderService.getOrderDetail(oid);
-        return orderOptional.map(order -> new OrderPureVO(order, payTimeLimit)).orElseThrow(() -> {
-            throw new NotFoundException(50009);
-        });
+        return orderOptional.map(order -> new OrderPureVO(order, payTimeLimit)).orElseThrow(() -> new NotFoundException(50009));
     }
 }

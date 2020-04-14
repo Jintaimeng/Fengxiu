@@ -10,5 +10,7 @@ public class TopicMessageListener implements MessageListener {
         byte[] channel = message.getChannel();
         String expiredKey = new String(body);
         String topic = new String(channel);
+        System.out.println(expiredKey);
+        System.out.println(topic);
     }
 }

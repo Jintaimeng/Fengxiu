@@ -10,7 +10,7 @@ import org.springframework.data.redis.listener.Topic;
 
 @Configuration
 public class MessageListenerConfiguration {
-    @Value("spring.redis.listen-pattern")
+    @Value("${spring.redis.listen-pattern}")
     private String pattern;
 
     @Bean

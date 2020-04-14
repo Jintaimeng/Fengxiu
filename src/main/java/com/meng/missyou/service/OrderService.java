@@ -93,7 +93,7 @@ public class OrderService {
     }
 
     private void sendToRedis(Long oid, Long uid, Long couponId) {
-        String key = oid.toString() + "," + uid.toString() + "," + couponId.toString();
+        String key = uid.toString() + "," + oid.toString() + "," + couponId.toString();
         try {
             this.stringRedisTemplate.opsForValue().set(key, "1", this.payTimeLimit, TimeUnit.SECONDS);
         } catch (Exception e) {
